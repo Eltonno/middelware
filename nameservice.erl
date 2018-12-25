@@ -6,7 +6,7 @@
 %%% @end
 %%% Created : 22. Dez 2018 00:38
 %%%-------------------------------------------------------------------
--module(Nameservice).
+-module(nameservice).
 -author("Ditmar").
 
 -export([init/1]).
@@ -14,7 +14,7 @@
 
 init(Port) ->
 	%% TODO: Nameservice auf Port einstellen
-	loop(TupleList).
+	loop([]).
 
 loop(TupleList) ->
 	receive
@@ -27,20 +27,21 @@ loop(TupleList) ->
 			if
 				Member ->
 					%%TODO: Name aus TupleList entfernen.
-					PID ! ok,
+					NewTupleList = delete(Name,TupleList),
+					PID ! ok;
 				true ->
 					PID ! "Object not found"
-			end
-			loop(TupleList);
-		{PID, {lookup, Name} ->
+			end,
+			loop(NewTupleList);
+		{PID, {lookup, Name}} ->
 			Member = member(Name, TupleList),
 			if
 				Member ->
-					PID ! %%TODO: Referenz senden,
+					PID ! keyfind(Name, TupleList);%%TODO: Referenz senden
 				true ->
 					PID ! "Object not found"
-			end
-			loop(TupleList);
+			end,
+			loop(TupleList)
 	end.
 
 append([], []) ->
@@ -69,3 +70,28 @@ member(Elem, [H|T]) ->
     H == Elem -> true;
     true -> member(Elem, T)
   end.
+
+delete(_, []) -> 
+	[];
+delete(Elem, [{Name,Node}|T]) ->
+	if
+		Name == Elem -> T;
+		true -> delete(Elem, append([],{Name,Node}), T)
+	end.
+
+delete(_,L,[]) ->
+	L;
+delete(Elem, L, [{Name,Node}|T]) ->
+	if
+		Name == Elem -> append(L,T);
+		true -> delete(Elem, append(L,{Name,Node}), T)
+	end.
+
+keyfind(_,[]) ->
+	false;
+keyfind(Key, Tuplelist) ->
+	[Head|Rest] = Tuplelist,
+	{K,_} = Head,
+	if K == Key -> Head;
+		true -> keyfind(Key,Rest)
+	end.
