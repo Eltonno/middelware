@@ -13,85 +13,56 @@
 
 
 init(Port) ->
-	%% TODO: Nameservice auf Port einstellen
-	loop([]).
+	{ok, LSock} = gen_tcp:listen(Port, [list, {packet, 0},
+	{active, false}]),
+	{ok, Sock} = gen_tcp:accept(LSock),
+	{ok, _Bin} = do_recv(Sock, []),
+	ok = gen_tcp:close(Sock),
+	ok = gen_tcp:close(LSock).
 
-loop(TupleList) ->
-	receive
-		{PID, {rebind, Name, Node}} ->
-			%% TODO
-			loop(append(TupleList, {Name, Node})),
-			PID ! ok;
-		{PID, {unbind, Name}} ->
-			Member = member(Name, TupleList),
-			if
-				Member ->
-					%%TODO: Name aus TupleList entfernen.
-					NewTupleList = delete(Name,TupleList),
-					PID ! ok;
-				true ->
-					PID ! "Object not found"
-			end,
-			loop(NewTupleList);
-		{PID, {lookup, Name}} ->
-			Member = member(Name, TupleList),
-			if
-				Member ->
-					PID ! keyfind(Name, TupleList);%%TODO: Referenz senden
-				true ->
-					PID ! "Object not found"
-			end,
-			loop(TupleList)
+do_recv(Sock, TupleList) ->
+	case gen_tcp:recv(Sock, 0) of
+		{ok, B} ->
+      [D, Obj, Name] = string:tokens(string:trim(B),"{},"),
+			case D of
+				"rebind" ->
+          util:logging("abc", util:to_String(erlang:timestamp()) ++ " " ++ string:trim(Obj) ++ ">--<" ++ string:trim(Name) ++ "\n"),
+          gen_tcp:send(Sock, <<"ok">>),
+					do_recv(Sock, append(TupleList, {Name, string:trim(Obj)}));
+				"resolve" ->
+          {_, Object} = keyfind(Name, TupleList),
+          gen_tcp:send(Sock, util:to_String(Object)),
+          util:logging("abc", util:to_String(erlang:timestamp()) ++ string:trim(Name) ++ "\n"),
+					do_recv(Sock, TupleList)
+			end;
+		{error, _Closed} ->
+			{ok, TupleList}
 	end.
 
 append([], []) ->
   [];
 append([],[H|T]) ->
-  [H|T];
+[H|T];
 append([],Elem) ->
-  [Elem];
+[Elem];
 append([H|T], []) ->
-  [H|T];
+[H|T];
 append(Elem, []) ->
-  [Elem];
+[Elem];
 append([H1|T1],[H2|T2]) ->
-  append([H1|T1] ++ [H2], T2);
+append([H1|T1] ++ [H2], T2);
 append([H|T],Elem) ->
-  [H|T] ++ [Elem];
+[H|T] ++ [Elem];
 append(L,[H|T]) ->
-  append([L] ++ [H], T);
+append([L] ++ [H], T);
 append(E1,E2) ->
-  [E1] ++ [E2].
-
-member(_,[]) ->
-  false;
-member(Elem, [H|T]) ->
-  if
-    H == Elem -> true;
-    true -> member(Elem, T)
-  end.
-
-delete(_, []) -> 
-	[];
-delete(Elem, [{Name,Node}|T]) ->
-	if
-		Name == Elem -> T;
-		true -> delete(Elem, append([],{Name,Node}), T)
-	end.
-
-delete(_,L,[]) ->
-	L;
-delete(Elem, L, [{Name,Node}|T]) ->
-	if
-		Name == Elem -> append(L,T);
-		true -> delete(Elem, append(L,{Name,Node}), T)
-	end.
+[E1] ++ [E2].
 
 keyfind(_,[]) ->
-	false;
+false;
 keyfind(Key, Tuplelist) ->
-	[Head|Rest] = Tuplelist,
-	{K,_} = Head,
-	if K == Key -> Head;
-		true -> keyfind(Key,Rest)
-	end.
+[Head|Rest] = Tuplelist,
+{K,_} = Head,
+if K == Key -> Head;
+	true -> keyfind(Key,Rest)
+end.
