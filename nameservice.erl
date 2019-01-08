@@ -23,7 +23,7 @@ init(Port) ->
 do_recv(Sock, TupleList) ->
 	case gen_tcp:recv(Sock, 0) of
 		{ok, B} ->
-      [D, Obj, Name] = string:tokens(string:trim(B),"{},"),
+      [D, Obj, Name] = string:tokens(string:trim(B),"{};"),
 			case D of
 				"rebind" ->
           util:logging("abc", util:to_String(erlang:timestamp()) ++ " " ++ string:trim(Obj) ++ ">--<" ++ string:trim(Name) ++ "\n"),
@@ -33,7 +33,9 @@ do_recv(Sock, TupleList) ->
           {_, Object} = keyfind(Name, TupleList),
           gen_tcp:send(Sock, util:to_String(Object)),
           util:logging("abc", util:to_String(erlang:timestamp()) ++ string:trim(Name) ++ "\n"),
-					do_recv(Sock, TupleList)
+					do_recv(Sock, TupleList);
+				"shutdown" ->
+					ok
 			end;
 		{error, _Closed} ->
 			{ok, TupleList}

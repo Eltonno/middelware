@@ -18,13 +18,13 @@ public class INameService extends NameService {
         this.host = host;
         this.port = port;
         this.debug = debug;
-		java.net.Socket socket = new java.net.Socket("192.168.0.103",25000); // verbindet sich mit Server
+		socket = new java.net.Socket(host,port); // verbindet sich mit Server
     }
 
     @Override
     public void rebind(Object servant, String name) {
     	try {
-			schreibeNachricht(socket, "{rebind," + servant.toString() + "," + name + "}");
+			schreibeNachricht(socket, "{rebind;" + servant.toString() + ";" + name + "}");
 			String antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
 		} catch (IOException e) {
@@ -35,7 +35,7 @@ public class INameService extends NameService {
     @Override
     public Object resolve(String name) {
     	try {
-			schreibeNachricht(socket, "{rebind, ," + name + "}");
+			schreibeNachricht(socket, "{rebind; ;" + name + "}");
 			String antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
 		 	return antwort;
@@ -44,8 +44,17 @@ public class INameService extends NameService {
 		}
 		return "Error";
     }
-    
-    void schreibeNachricht(java.net.Socket socket, String nachricht) throws IOException {
+
+	@Override
+	public void shutdown() {
+		try {
+			schreibeNachricht(socket, "{shutdown;good;bye}");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	void schreibeNachricht(java.net.Socket socket, String nachricht) throws IOException {
 	 PrintWriter printWriter =
 	    new PrintWriter(
 	 	new OutputStreamWriter(
