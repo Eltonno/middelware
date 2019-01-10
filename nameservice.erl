@@ -33,11 +33,19 @@ do_recv(Sock, LSock, Port, TupleList) ->
           gen_tcp:send(Sock, <<"ok">>),
 					do_recv(Sock, LSock, Port, append(TupleList, {Name, string:trim(Obj)}));
 				"resolve" ->
-          {_, Object} = keyfind(Name, TupleList),
-          gen_tcp:send(Sock, util:to_String(Object)),
+					case keyfind(Name, TupleList) of
+						{_, Object} ->
+							gen_tcp:send(Sock, util:to_String(Object));
+						false ->
+							gen_tcp:send(Sock, "null")
+					end,
+          %{_, Object} = keyfind(Name, TupleList),
+          %gen_tcp:send(Sock, util:to_String(Object)),
           util:logging("abc", util:to_String(erlang:timestamp()) ++ string:trim(Name) ++ "\n"),
 					do_recv(Sock, LSock, Port, TupleList);
 				"shutdown" ->
+					ok = gen_tcp:close(Sock),
+					ok = gen_tcp:close(LSock),
 					ok
 			end;
 		{error, _Closed} ->

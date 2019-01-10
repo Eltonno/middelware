@@ -34,6 +34,6 @@ public class ObjectBroker{
     public void shutDown() throws IOException {
         if (debug)
             System.out.println("Object Brooker heruntergefahren");
-        nameService.shutdown();
+        //SnameService.shutdown();
     }
 }
