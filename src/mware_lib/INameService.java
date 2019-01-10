@@ -35,6 +35,7 @@ public class INameService extends NameService {
 // TODO: Neuer Thread für jedes resolve, um Blockaden durch Fehlern vorzubeugen
 // TODO: Fehlerbehandlung implementieren, falls Object nicht im Nameservice registriert ist
     @Override
+	//
     public Object resolve(String name) {
     	try {
 			schreibeNachricht(socket, "{resolve; ;" + name + "}");
