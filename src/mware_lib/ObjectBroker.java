@@ -37,11 +37,3 @@ public class ObjectBroker{
         nameService.shutdown();
     }
 }
-
-/*
-public void shutdown() throws IOException {
-		is.close();
-		os.close();
-		socketOut.close();
-	}
-	*/

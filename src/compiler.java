@@ -4,6 +4,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+// TODO: narrowCast in dem Maße implementieren das es auch funktioniert
+// TODO: ausserdem nochmal alles durchgehen und nachsehen ob das Ergebnis mit seinem Code Funktioniert
 public class compiler {
     public static void main(String args[]){
         String file = args[0];

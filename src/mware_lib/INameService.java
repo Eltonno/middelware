@@ -20,7 +20,7 @@ public class INameService extends NameService {
         this.debug = debug;
 		socket = new java.net.Socket(host,port); // verbindet sich mit Server
     }
-
+// TODO: Neuer Thread für jedes Rebind um Fehlern vorzubeugen
     @Override
     public void rebind(Object servant, String name) {
     	try {
@@ -31,11 +31,12 @@ public class INameService extends NameService {
 			e.printStackTrace();
 		}
     }
-
+// TODO: Neuer Thread für jedes resolve, um Blockaden durch Fehlern vorzubeugen
+// TODO: Fehlerbehandlung implementieren, falls Object nicht im Nameservice registriert ist
     @Override
     public Object resolve(String name) {
     	try {
-			schreibeNachricht(socket, "{rebind; ;" + name + "}");
+			schreibeNachricht(socket, "{resolve; ;" + name + "}");
 			String antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
 		 	return antwort;

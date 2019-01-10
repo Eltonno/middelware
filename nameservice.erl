@@ -16,29 +16,37 @@ init(Port) ->
 	{ok, LSock} = gen_tcp:listen(Port, [list, {packet, 0},
 	{active, false}]),
 	{ok, Sock} = gen_tcp:accept(LSock),
-	{ok, _Bin} = do_recv(Sock, []),
-	ok = gen_tcp:close(Sock),
-	ok = gen_tcp:close(LSock).
+	ok = do_recv(Sock, LSock, Port, []).
+%	ok = gen_tcp:close(Sock),
+%	ok = gen_tcp:close(LSock)
 
-do_recv(Sock, TupleList) ->
+
+do_recv(Sock, LSock, Port, TupleList) ->
+
 	case gen_tcp:recv(Sock, 0) of
 		{ok, B} ->
+			util:logging("abc", util:to_String(B)),
       [D, Obj, Name] = string:tokens(string:trim(B),"{};"),
 			case D of
 				"rebind" ->
           util:logging("abc", util:to_String(erlang:timestamp()) ++ " " ++ string:trim(Obj) ++ ">--<" ++ string:trim(Name) ++ "\n"),
           gen_tcp:send(Sock, <<"ok">>),
-					do_recv(Sock, append(TupleList, {Name, string:trim(Obj)}));
+					do_recv(Sock, LSock, Port, append(TupleList, {Name, string:trim(Obj)}));
 				"resolve" ->
           {_, Object} = keyfind(Name, TupleList),
           gen_tcp:send(Sock, util:to_String(Object)),
           util:logging("abc", util:to_String(erlang:timestamp()) ++ string:trim(Name) ++ "\n"),
-					do_recv(Sock, TupleList);
+					do_recv(Sock, LSock, Port, TupleList);
 				"shutdown" ->
 					ok
 			end;
 		{error, _Closed} ->
-			{ok, TupleList}
+			ok = gen_tcp:close(Sock),
+			ok = gen_tcp:close(LSock),
+			{ok, NLSock} = gen_tcp:listen(Port, [list, {packet, 0},
+				{active, false}]),
+			{ok, NSock} = gen_tcp:accept(NLSock),
+			do_recv(NSock,NLSock,Port,TupleList)
 	end.
 
 append([], []) ->
