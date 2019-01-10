@@ -26,12 +26,12 @@ do_recv(Sock, LSock, Port, TupleList) ->
 	case gen_tcp:recv(Sock, 0) of
 		{ok, B} ->
 			util:logging("abc", util:to_String(B)),
-      [D, Obj, Name, Host, Port] = string:tokens(string:trim(B),"{};"),
+      [D, Obj, Name, Host, Po] = string:tokens(string:trim(B),"{};"),
 			case D of
 				"rebind" ->
           util:logging("abc", util:to_String(erlang:timestamp()) ++ " " ++ string:trim(Obj) ++ ">--<" ++ string:trim(Name) ++ "\n"),
-          gen_tcp:send(Sock, <<"ok">>),
-					do_recv(Sock, LSock, Port, append(TupleList, {Name, string:trim(Obj ++ "," ++ Host ++ "," ++ Port)}));
+          gen_tcp:send(Sock, "ok"),
+					do_recv(Sock, LSock, Port, append(TupleList, {Name, Obj ++ "," ++ Host ++ "," ++ Po}));
 				"resolve" ->
 					case keyfind(Name, TupleList) of
 						{_, Object} ->

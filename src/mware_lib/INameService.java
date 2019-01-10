@@ -7,11 +7,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 
 public class INameService extends NameService {
     private String host;
     private int port;
     private boolean debug;
+    HashMap objects = new HashMap();
     Socket socket;
 
     INameService(String host, int port, boolean debug) throws UnknownHostException, IOException {
@@ -28,6 +30,7 @@ public class INameService extends NameService {
 			schreibeNachricht(socket, "{rebind;" + servant.toString() + ";" + name + ";" + host + ";" + port + "}");
 			Object antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
+		 	objects.put(name, servant);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -38,17 +41,23 @@ public class INameService extends NameService {
 	//
     public Object resolve(String name) {
     	try {
-			schreibeNachricht(socket, "{resolve; ;" + name + "}");
-			Object antwort = leseNachricht(socket);
+			schreibeNachricht(socket, "{resolve; ; ; ;" + name + "}");
+			String antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
-		 	//String[] values = antwort.split(";");
-
+		 	String[] values = antwort.split(",");
+			if (values[1] == host && (values[2] == Integer.toString(port))){
+				return resolveLocal(name);
+			}
 		 	return antwort;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return "Error";
     }
+
+    public Object resolveLocal(String name){
+    	return objects.get(name);
+	}
 
 	@Override
 	public void shutdown() {
@@ -68,7 +77,7 @@ public class INameService extends NameService {
 	printWriter.flush();
    }
     
-   Object leseNachricht(java.net.Socket socket) throws IOException {
+   String leseNachricht(Socket socket) throws IOException {
 	BufferedReader bufferedReader =
 	    new BufferedReader(
 		new InputStreamReader(
@@ -76,9 +85,8 @@ public class INameService extends NameService {
 	char[] buffer = new char[200];
 	int anzahlZeichen = bufferedReader.read(buffer, 0, 200); // blockiert bis Nachricht empfangen
 	String nachricht = new String(buffer, 0, anzahlZeichen);
-	Object n = nachricht;
 	if (nachricht == "null")
 		return null;
-	return n;
+	return nachricht;
    }
 }
