@@ -23,8 +23,9 @@ public class INameService extends NameService {
 // TODO: Neuer Thread für jedes Rebind um Fehlern vorzubeugen
     @Override
     public void rebind(Object servant, String name) {
+    	System.out.println(servant.getClass());
     	try {
-			schreibeNachricht(socket, "{rebind;" + servant.toString() + ";" + name + "}");
+			schreibeNachricht(socket, "{rebind;" + servant.toString() + ";" + name + ";" + host + ";" + port + "}");
 			Object antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
 		} catch (IOException e) {
@@ -39,6 +40,8 @@ public class INameService extends NameService {
 			schreibeNachricht(socket, "{resolve; ;" + name + "}");
 			Object antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
+		 	//String[] values = antwort.split(";");
+
 		 	return antwort;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -56,7 +59,7 @@ public class INameService extends NameService {
 	}
 
 	void schreibeNachricht(java.net.Socket socket, String nachricht) throws IOException {
-	 PrintWriter printWriter =
+    	PrintWriter printWriter =
 	    new PrintWriter(
 	 	new OutputStreamWriter(
 		    socket.getOutputStream()));
