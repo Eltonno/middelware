@@ -37,7 +37,7 @@ public class INameService extends NameService {
     public Object resolve(String name) {
     	try {
 			schreibeNachricht(socket, "{resolve; ;" + name + "}");
-			String antwort = leseNachricht(socket);
+			Object antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
 		 	return antwort;
 		} catch (IOException e) {
@@ -64,7 +64,7 @@ public class INameService extends NameService {
 	printWriter.flush();
    }
     
-   String leseNachricht(java.net.Socket socket) throws IOException {
+   Object leseNachricht(java.net.Socket socket) throws IOException {
 	BufferedReader bufferedReader =
 	    new BufferedReader(
 		new InputStreamReader(
@@ -72,8 +72,9 @@ public class INameService extends NameService {
 	char[] buffer = new char[200];
 	int anzahlZeichen = bufferedReader.read(buffer, 0, 200); // blockiert bis Nachricht empfangen
 	String nachricht = new String(buffer, 0, anzahlZeichen);
+	Object n = nachricht;
 	if (nachricht == "null")
 		return null;
-	return nachricht;
+	return n;
    }
 }
