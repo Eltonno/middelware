@@ -25,7 +25,7 @@ public class INameService extends NameService {
     public void rebind(Object servant, String name) {
     	try {
 			schreibeNachricht(socket, "{rebind;" + servant.toString() + ";" + name + "}");
-			String antwort = leseNachricht(socket);
+			Object antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
 		} catch (IOException e) {
 			e.printStackTrace();
