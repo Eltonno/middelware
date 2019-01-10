@@ -41,7 +41,7 @@ public class INameService extends NameService {
 	//
     public Object resolve(String name) {
     	try {
-			schreibeNachricht(socket, "{resolve; ; ; ;" + name + "}");
+			schreibeNachricht(socket, "{resolve; ;" + name + "; ; }");
 			String antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
 		 	String[] values = antwort.split(",");
