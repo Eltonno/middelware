@@ -7,10 +7,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.HashMap;
 
-public class INameService extends NameService implements Runnable {
+public class INameService extends NameService {
     private String host;
     private int port;
     private boolean debug;
@@ -26,10 +25,9 @@ public class INameService extends NameService implements Runnable {
 // TODO: Neuer Thread für jedes Rebind um Fehlern vorzubeugen
     @Override
     public void rebind(Object servant, String name) {
-
     	System.out.println(servant.getClass());
     	try {
-			schreibeNachricht(socket, "{rebind;" + servant.toString() + ";" + name + ";" + host + ";" + port + "}");
+			schreibeNachricht(socket, "{rebind;" + name + ";" + host + ";" + port + "}");
 			Object antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
 		 	objects.put(name, servant);
@@ -43,15 +41,16 @@ public class INameService extends NameService implements Runnable {
 	//
     public Object resolve(String name) {
     	try {
-			schreibeNachricht(socket, "{resolve; ;" + name + "; ; }");
+			schreibeNachricht(socket, "{resolve;" + name + "; ; }");
 			String antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
-		 	String[] values = antwort.split(",");
-			Arrays.toString(values);
-			//if (values[1] == host && (values[2].substring(0, values[2].length()-2) == Integer.toString(port))){
-				return resolveLocal(name);
-			//}
-		 	//return antwort;
+		 //	if(antwort != "null"){
+		 //	String[] values = antwort.split(",");
+		//	if (values[1] == host && (values[2] == Integer.toString(port))){
+	//			return resolveLocal(name);
+//			}
+		//}
+		 	return antwort;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -85,17 +84,11 @@ public class INameService extends NameService implements Runnable {
 	    new BufferedReader(
 		new InputStreamReader(
 	  	    socket.getInputStream()));
-	//char[] buffer = new char[200];
-	//int anzahlZeichen = bufferedReader.read(buffer, 0, 200); // blockiert bis Nachricht empfangen
-	//String nachricht = new String(buffer, 0, anzahlZeichen);
-	   String nachricht = bufferedReader.readLine();
-	   if (nachricht == "null")
+	char[] buffer = new char[200];
+	int anzahlZeichen = bufferedReader.read(buffer, 0, 200); // blockiert bis Nachricht empfangen
+	String nachricht = new String(buffer, 0, anzahlZeichen);
+	if (nachricht == "null" || nachricht == null)
 		return null;
 	return nachricht;
    }
-
-	@Override
-	public void run() {
-
-	}
 }
