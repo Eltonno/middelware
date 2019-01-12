@@ -57,6 +57,11 @@ public class INameService extends NameService {
 		return "Error";
     }
 
+    public Object resolveLocally(String name){
+    	return objects.get(name);
+    	//TODO: Fehlerbehandlung vielleicht? Was wenn nicht vorhanden?
+	}
+
     public Object resolveLocal(String name){
     	return objects.get(name);
 	}
@@ -70,7 +75,7 @@ public class INameService extends NameService {
 		}
 	}
 
-	void schreibeNachricht(java.net.Socket socket, String nachricht) throws IOException {
+	void schreibeNachricht(Socket socket, String nachricht) throws IOException {
     	PrintWriter printWriter =
 	    new PrintWriter(
 	 	new OutputStreamWriter(

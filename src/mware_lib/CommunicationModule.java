@@ -4,27 +4,28 @@ public class CommunicationModule {
     int port;
     INameService nameService;
     boolean debug;
-    ObjektBroker ob;
-    Listener ls;
+    ObjectBroker ob;
+    String host;
 
-    public CommunicationModule(int port, INameService nameService, boolean debug, ObjectBroker ob) {
+    public CommunicationModule(String host, int port, INameService nameService, boolean debug, ObjectBroker ob) {
     this.port = port;
     this.nameService = nameService;
     this.debug = debug;
     this.ob = ob;
-     ls = new RequestHandler(socket, ns).start();
+    this.host = host;
+     new Listener(this, host, port).start();
     }
 
-    public Object invoke(String host, int port, String method, Object... args) {
-    Sender s = new Sender(host, port, method, args);
+    public Object invoke(String name, String host, int port, String method, Object... args) {
+    Sender s = new Sender(this, host, port, method, args);
     return s.invoke();
         //TODO: remoteCall befehl an das CommunicationModule von der Adresse der Objektreferenz
 
     }
 
-    public void remoteCall(String objectName, String methodName, Object... arg, String sendtohost, int sendtoport){
-        Object asdf = ob.localCall(objectName, methodName, args);
-        Sender se = new Sender(sendtohost, sendtoport, methodName, arg);
+    public void remoteCall(String sendtohost, int sendtoport, String objectName, String methodName, Object... arg){
+        Object asdf = ob.localCall(objectName, methodName, arg);
+        Sender se = new Sender(this, sendtohost, sendtoport, methodName, arg);
         se.sendResult(asdf);
 
     }

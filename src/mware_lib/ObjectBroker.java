@@ -1,12 +1,14 @@
 package mware_lib;
 
 import java.io.IOException;
+import java.util.Random;
+
 
 public class ObjectBroker{
     private boolean debug;
     private String host;
     private int port;
-    private NameService nameService;
+    private INameService nameService;
     private static ObjectBroker singleton = null;
     CommunicationModule com;
 
@@ -19,7 +21,7 @@ public class ObjectBroker{
         Random rand = new Random(65535);
         int listenerPort = rand.nextInt() + 1;
         //TODO: Abfangen ob Port schon besetzt ist. Vielleicht diesen Teil als Methode aussourcen.
-        com = new CommunicationModule(listenerPort, nameService, debug, this);
+        com = new CommunicationModule(host, listenerPort, nameService, debug, this);
     }
 
     public static ObjectBroker init(String serviceHost, int port, boolean debug) throws IOException {
@@ -40,8 +42,8 @@ public class ObjectBroker{
         //SnameService.shutdown();
     }
 
-    public Object remoteCall(ObjectReference ref, String methodName, Object... args) {
-        return communicationModule.invoke(ref, methodName, args);
+    public Object remoteCall(String name, String host, int port, String methodName, Object... args) {
+        return com.invoke(name, host, port, methodName, args);
     }
 
     public Object localCall(String name, String methodName, Object... args) {
