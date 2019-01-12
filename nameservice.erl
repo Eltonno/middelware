@@ -27,6 +27,7 @@ loop(TupleList) ->
 			Ref = keyfind(Name, TupleList),
 			RH_PID ! Ref,
 			loop(TupleList)
+    %%TODO: ANY -> RH_PID ! "error" oder so.
 	end.
 
 append([], []) ->

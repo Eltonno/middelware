@@ -16,7 +16,10 @@ public class ObjectBroker{
         this.port = port;
         this.debug = debug;
         nameService = new INameService(host, port, debug);
-        com = new CommunicationModule(port, nameService, debug, this);
+        Random rand = new Random(65535);
+        int listenerPort = rand.nextInt() + 1;
+        //TODO: Abfangen ob Port schon besetzt ist. Vielleicht diesen Teil als Methode aussourcen.
+        com = new CommunicationModule(listenerPort, nameService, debug, this);
     }
 
     public static ObjectBroker init(String serviceHost, int port, boolean debug) throws IOException {
