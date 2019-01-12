@@ -22,8 +22,11 @@ public class CommunicationModule {
 
     }
 
-    public Object remoteCall(String objectName, String methodName, Object... arg){
-        return ob.localCall(objectName, methodName, args);
+    public void remoteCall(String objectName, String methodName, Object... arg, String sendtohost, int sendtoport){
+        Object asdf = ob.localCall(objectName, methodName, args);
+        Sender se = new Sender(sendtohost, sendtoport, methodName, arg);
+        se.sendResult(asdf);
+
     }
 
     public void shutdown() {

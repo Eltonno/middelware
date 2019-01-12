@@ -14,10 +14,13 @@ public class Sender {
         nachricht = method; //TODO: die args irgendwie in den String einbauen
     }
 
+    public void sendResult(Object result){
+        //TODO: result an den die Addresse schicken
+    }
+
     public Object invoke() {
         serversocket = new ServerSocket(port);
         System.out.println("Sender läuft");
-        while(true){
             try{
                 PrintWriter printWriter =
                         new PrintWriter(
@@ -31,13 +34,13 @@ public class Sender {
                                 new InputStreamReader(
                                         socket.getInputStream()));
                 String result = bufferedReader.readLine();
+                socket.close();
                 return result;
             } catch (IOException e) {
                 System.out.println("I/O error: " + e);
             }
-            // new thread for a client
 
-        }
+
     }
 
 
