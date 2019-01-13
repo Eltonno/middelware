@@ -1,10 +1,11 @@
 package mware_lib;
 
 import java.io.IOException;
-import java.util.Random;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method.*;
 
 
-public class ObjectBroker{
+public class ObjectBroker {
     private boolean debug;
     private String host;
     private int port;
@@ -18,14 +19,15 @@ public class ObjectBroker{
         this.port = port;
         this.debug = debug;
         nameService = new INameService(host, port, debug);
-        Random rand = new Random(65535);
-        int listenerPort = rand.nextInt() + 1;
-        //TODO: Abfangen ob Port schon besetzt ist. Vielleicht diesen Teil als Methode aussourcen.
-        com = new CommunicationModule(host, listenerPort, nameService, debug, this);
+        //Random rand = new Random(65535);
+        //int listenerPort = rand.nextInt() + 1;
+        //WOHL GELÖST: Abfangen ob Port schon besetzt ist. Vielleicht diesen Teil als Methode aussourcen.
+
+        com = new CommunicationModule(host, nameService, debug, this);
     }
 
     public static ObjectBroker init(String serviceHost, int port, boolean debug) throws IOException {
-        if (singleton==null)
+        if (singleton == null)
             return singleton = new ObjectBroker(serviceHost, port, debug);
         return singleton;
     }
@@ -42,20 +44,30 @@ public class ObjectBroker{
         //SnameService.shutdown();
     }
 
-    public Object remoteCall(String name, String host, int port, String methodName, Object... args) {
+    public Object remoteCall(String name, String host, int port, String methodName, Object... args) throws IOException {
         return com.invoke(name, host, port, methodName, args);
     }
 
-    public Object localCall(String name, String methodName, Object... args) {
+    public Object localCall(String name, String methodName, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Object resolved = nameService.resolveLocally(name);
-        //TODO: Mittels invoke die Methode ausführen
-        //TODO: Das Ergebniss der Methode zurückgeben.
+        Class[] argtypes = new Class[args.length];
+        if (args.length > 0) {
+            for (int i = 0; i < args.length; i++) {
+                if (args[i].getClass() == Integer.class) {
+                    argtypes[i] = Integer.class;
+                } else if (args[i].getClass() == Double.class) {
+                    argtypes[i] = Double.class;
+                } else {
+                    argtypes[i] = String.class;
+                }
+            }
+            return resolved.getClass().getDeclaredMethod(methodName, argtypes).invoke(resolved, args);
+            //WOHL FERTIG: Mittels invoke die Methode ausführen
+            //WOHL FERTIG: Das Ergebniss der Methode zurückgeben.
 
-        //  String classname = resolved.getClass().toString();
-      //  Class<?> c = Class.forName(classname);
-      //  Method method = resolved.getClass().getMethod(methodName, parameterTypes);
-      //  method.invoke(resolved, args);
 
-      //  return ReflectionUtil.call(resolved, methodName, args);
+        }
+        //TODO: EXCEPTION WERFEN
+        return "error";
     }
 }

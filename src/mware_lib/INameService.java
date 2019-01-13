@@ -20,7 +20,7 @@ public class INameService extends NameService {
         this.host = host;
         this.port = port;
         this.debug = debug;
-		socket = new java.net.Socket(host,port); // verbindet sich mit Server
+		socket = new Socket(host,port); // verbindet sich mit Server
     }
 // TODO: Neuer Thread für jedes Rebind um Fehlern vorzubeugen
     @Override
