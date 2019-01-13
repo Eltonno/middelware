@@ -1,29 +1,36 @@
 package bancomat;
 
 import mware_lib.CommunicationModule;
-public  class _AccountHandler {
+import mware_lib.ObjectBroker;
+
+import java.io.IOException;
+
+public  class _AccountHandler extends _AccountImplBase {
 
 private static String name;
 private static String host;
 private static int port;
-_AccountHandler(Object rawObjectRef){
-	name = rawObjectRef.toString().split(",")[0];
-	host = rawObjectRef.toString().split(",")[1];
-	port = Integer.parseInt(rawObjectRef.toString().split(",")[2]);
+ObjectBroker ob;
+
+_AccountHandler(Object rawObjectRef) throws IOException {
+name = rawObjectRef.toString().split(",")[0];
+host = rawObjectRef.toString().split(",")[1];
+port = Integer.parseInt(rawObjectRef.toString().split(",")[2]);
+ob = ObjectBroker.init("", 0, false);
 }
 
-public static _AccountHandler narrowCast(Object rawObjectRef){
+public static _AccountHandler narrowCast(Object rawObjectRef) throws IOException {
 	return new _AccountHandler(rawObjectRef);
 }
 
-public  double deposit(double param0) throws RuntimeException {
-	Object result = CommunicationModule.invoke(name, host, port, "_AccountImplBase", "balanceInquiry");
+public  double deposit(double param0) throws Exception {
+	Object result = this.ob.remoteCall(name,host,port,"deposit", param0);
 	if (result instanceof RuntimeException) throw (RuntimeException) result;
 	return (double) result;
 }
 
-public  double withdraw(double param0) throws RuntimeException {
-	Object result = CommunicationModule.invoke(name, host, port, "_AccountImplBase", "balanceInquiry");
+public  double withdraw(double param0) throws Exception {
+	Object result = this.ob.remoteCall(name,host,port,"withdraw",param0);
 	if (result instanceof RuntimeException) throw (RuntimeException) result;
 	return (double) result;
 }

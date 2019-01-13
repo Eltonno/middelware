@@ -4,8 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-// TODO: narrowCast in dem Maße implementieren das es auch funktioniert
-// TODO: ausserdem nochmal alles durchgehen und nachsehen ob das Ergebnis mit seinem Code Funktioniert
+// TODO: Die fertigen Handler Klassen zuende nacharbeiten, Klassen müssten so mit unserem Programm zusammenarbeiten
 public class compiler {
     public static void main(String args[]){
         String file = args[0];
@@ -43,15 +42,17 @@ public class compiler {
                         pathHandler = Paths.get(module+fileSeparator+"_"+wClass+"Handler.java");
                         Files.deleteIfExists(pathHandler);
                         String textHandler = "package "+module+";\n\n" +
-                                "import mware_lib.CommunicationModule;\n"+
-                                "public  class _"+parts[1]+"Handler {\n\n"+
+                                "import mware_lib.ObjectBroker;\n"+
+                                "public  class _"+parts[1]+"Handler extends _"+parts[1]+"ImplBase {\n\n"+
                                 "private static String name;\n"+
                                 "private static String host;\n"+
                                 "private static int port;\n"+
+                                "ObjectBroker ob;\n\n"+
                                 "_"+parts[1]+"Handler(Object rawObjectRef){\n"+
                                 "name = rawObjectRef.toString().split(\",\")[0];\n" +
                                 "host = rawObjectRef.toString().split(\",\")[1];\n" +
-                                "port = Integer.parseInt(rawObjectRef.toString().split(\",\")[2]);\n}\n"+
+                                "port = Integer.parseInt(rawObjectRef.toString().split(\",\")[2]);\n" +
+                                "ob = ObjectBroker.init(host, port, false);\n}\n"+
                                 "\t\tpublic static _"+wClass+"Handler narrowCast(Object rawObjectRef){\n" +
                                 "return new _"+wClass+"Handler(rawObjectRef);}\n";
                         bytes = textHandler.getBytes();
@@ -80,12 +81,12 @@ public class compiler {
                         for (String a:parts) {
                                 newLine = newLine +" "+a.replace("\t","");
                         }
-                        textImpl = "\tpublic abstract "+newLine.replace("string","String")+"\n";
+                        textImpl = "\tpublic abstract "+newLine.replace("string","String")+" throws Exception\n";
                         bytes = textImpl.getBytes();
                         Files.write(pathImpl,bytes,StandardOpenOption.APPEND,StandardOpenOption.WRITE);
                         newLine = newLine.replaceAll(";","");
-                        textHandler = "\tpublic "+newLine.replace("string","String")+" throws RuntimeException {\n"+
-                        "Object result = CommunicationModule.invoke(name, host, port, \"_"+wClass+"ImplBase\", \"balanceInquiry\");\n"+
+                        textHandler = "\tpublic "+newLine.replace("string","String")+" throws Exception {\n"+
+                        "Object result = this.ob.remoteCall(name, host, port,"+parts[1]+","+parts[3]+");\n"+
                         "if (result instanceof RuntimeException) throw (RuntimeException) result;\n"+
                         "return "+value+";\n}\n";
                         bytes = textHandler.getBytes();

@@ -11,18 +11,24 @@ public class Listener extends Thread {
     String host;
     int port;
     CommunicationModule com;
-    Socket socket;
+    ServerSocket ss;
 
 
-    Listener(CommunicationModule com, Socket socket, String host, int port){
+    Listener(CommunicationModule com, ServerSocket ss, String host, int port){
         this.host = host;
         this.port = port;
         this.com = com;
-        this.socket = socket;
+        this.ss = ss;
     }
 
     @Override
     public void run() {
+        Socket socket = null;
+        try {
+            socket = ss.accept();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("Listener läuft");
         while(true){
             BufferedReader bufferedReader =

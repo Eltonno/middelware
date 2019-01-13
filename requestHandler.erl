@@ -51,7 +51,7 @@ handleRequest(Sock, NS_PID) ->
           receive
             {Name,Ref} ->
               util:logging("requestHandler.log", vsutil:now2string(erlang:timestamp()) ++ " resolve has found Refrence: "++Ref++"\n"),
-              gen_tcp:send(Sock, Ref),
+              gen_tcp:send(Sock, Name++","++Ref),
               handleRequest(Sock, NS_PID);
             false ->
               util:logging("requestHandler.log", vsutil:now2string(erlang:timestamp()) ++ " resolve has found nothing and sends null as a string back\n"),

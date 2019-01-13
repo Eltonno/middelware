@@ -22,7 +22,6 @@ public class ObjectBroker {
         //Random rand = new Random(65535);
         //int listenerPort = rand.nextInt() + 1;
         //WOHL GELÖST: Abfangen ob Port schon besetzt ist. Vielleicht diesen Teil als Methode aussourcen.
-
         com = new CommunicationModule(host, nameService, debug, this);
     }
 

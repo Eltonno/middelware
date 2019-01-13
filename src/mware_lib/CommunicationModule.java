@@ -3,6 +3,7 @@ package mware_lib;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 public class CommunicationModule {
     int port;
@@ -23,8 +24,17 @@ public class CommunicationModule {
             e.printStackTrace();
         }
         port = ss.getLocalPort();
+        //TODO: Habe das socket.accept in die Listener Class umgepackt, weil er sich da sonst dran aufgehangen hatteS
         //EIN RECEIVER IST BENÖTIGT, DER WIE BEIM NAMESERVICE LAUSCHT
-        new Listener(this, ss.accept(), host, port).start();
+        // Socket sock = null;
+        //try {
+        //    sock = ss.accept();
+        //}catch (Exception e){
+        //    System.out.println(e);
+        //}
+        //System.out.println(sock);
+        Listener listen = new Listener(this, ss, host, port);
+        listen.start();
     }
 
     public Object invoke(String name, String host, int port, String method, Object... args) throws IOException {

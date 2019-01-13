@@ -58,10 +58,11 @@ public class INameService extends NameService {
     }
 
     public Object resolveLocally(String name){
-    	return objects.get(name);
+    	return objects.getOrDefault(name, null);
     	//TODO: Fehlerbehandlung vielleicht? Was wenn nicht vorhanden?
+		//TODO :|| Wenn nicht vorhanden null zurück geben ist aus meiner sicht das logischte
 	}
-
+//TODO: warum gibt es die funktion theoretisch doppelt?
     public Object resolveLocal(String name){
     	return objects.get(name);
 	}
