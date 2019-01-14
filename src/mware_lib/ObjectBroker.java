@@ -48,6 +48,7 @@ public class ObjectBroker {
     public void shutDown() throws IOException {
         if (debug)
             System.out.println("Object Brooker heruntergefahren");
+        System.exit(0);
         //SnameService.shutdown();
     }
 
@@ -56,7 +57,7 @@ public class ObjectBroker {
         return com.invoke(name, host, port, methodName, args);
     }
 
-    public Object localCall(String name, String methodName, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public Object localCall(String name, String methodName, Object... args) {
         Object resolved = nameService.resolveLocally(name);
         Class[] argtypes = new Class[args.length];
         if (args.length > 0) {
@@ -69,7 +70,15 @@ public class ObjectBroker {
                     argtypes[i] = String.class;
                 }
             }
-            return resolved.getClass().getDeclaredMethod(methodName, argtypes).invoke(resolved, args);
+            try {
+                return resolved.getClass().getDeclaredMethod(methodName, argtypes).invoke(resolved, args);
+            } catch (IllegalAccessException e) {
+                return e;
+            } catch (InvocationTargetException e) {
+                return e;
+            } catch (NoSuchMethodException e) {
+                return e;
+            }
             //WOHL FERTIG: Mittels invoke die Methode ausführen
             //WOHL FERTIG: Das Ergebniss der Methode zurückgeben.
 

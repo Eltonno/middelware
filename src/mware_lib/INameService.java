@@ -56,6 +56,7 @@ public class INameService extends NameService {
 			System.out.println("{resolve;" + name + "; ; } an den Nameservice gesendet");
 			schreibeNachricht(socket, "{resolve;" + name + "; ; }");
 			String antwort = leseNachricht(socket);
+			//antwort.replace("\"", " ");
 		 	System.out.println(antwort + " vom Nameservice als Antwort empfangen");
 		 	if(antwort == "null"){
 		 		return null;
@@ -67,9 +68,8 @@ public class INameService extends NameService {
 		//}
 		 	return antwort;
 		} catch (IOException e) {
-			e.printStackTrace();
+			return e;
 		}
-		return "Error";
     }
 
     public Object resolveLocally(String name){

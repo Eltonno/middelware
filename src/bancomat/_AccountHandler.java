@@ -23,14 +23,24 @@ public static _AccountHandler narrowCast(Object rawObjectRef) throws IOException
 	return new _AccountHandler(rawObjectRef);
 }
 
-public  double deposit(double param0) throws Exception {
-	Object result = this.ob.remoteCall(name,host,port,"deposit", param0);
+public  double deposit(double param0) {
+	Object result = null;
+	try {
+		result = this.ob.remoteCall(name,host,port,"deposit", param0);
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
 	if (result instanceof RuntimeException) throw (RuntimeException) result;
 	return (double) result;
 }
 
-public  double withdraw(double param0) throws Exception {
-	Object result = this.ob.remoteCall(name,host,port,"withdraw",param0);
+public  double withdraw(double param0)  {
+	Object result = null;
+	try {
+		result = this.ob.remoteCall(name,host,port,"withdraw",param0);
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
 	if (result instanceof RuntimeException) throw (RuntimeException) result;
 	return (double) result;
 }

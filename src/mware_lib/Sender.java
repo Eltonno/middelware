@@ -61,9 +61,14 @@ public class Sender {
     }
 
 
-        public Object invoke() throws IOException {
-        Socket socket = new Socket(host, port);
-        System.out.println("Sender gestartet mit Host: " + host + " und Port: " + port );
+        public Object invoke() {
+            Socket socket = null;
+            try {
+                socket = new Socket(host, port);
+            } catch (IOException e) {
+                return e;
+            }
+            System.out.println("Sender gestartet mit Host: " + host + " und Port: " + port );
             System.out.println("Sender sendet: " + nachricht);
 
             try {

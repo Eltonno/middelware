@@ -47,10 +47,14 @@ public class CommunicationModule {
         return port;
     }
 
-    public static Object invoke(String name, String tohost, int toport, String method, Object... args) throws IOException {
+    public static Object invoke(String name, String tohost, int toport, String method, Object... args){
         System.out.println("invoke beim CommunicationModule aufgerufen.");
         Sender s = new Sender(host, port, name, tohost, toport, method, args);
-        return s.invoke();
+        try {
+            return s.invoke();
+        } catch (IOException e) {
+            return e;
+        }
         //WOHL FERTIG: remoteCall befehl an das CommunicationModule von der Adresse der Objektreferenz
 
     }
