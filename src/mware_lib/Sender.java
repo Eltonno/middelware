@@ -15,6 +15,7 @@ public class Sender {
     String nachricht;
 
     Sender(String comhost, int comport, String name, String host, int port, String method, Object... args){
+        System.out.println("Im Sender");
         this.host = host;
         this.port = port;
         this.comhost = comhost;
@@ -24,11 +25,11 @@ public class Sender {
             nachricht = nachricht + ";";
             for (int i = 0; i<args.length; i++){
                 if (args[i].getClass() == Integer.class){
-                    nachricht = nachricht + ":" + Integer.toString((Integer) args[i]);
+                    nachricht = nachricht +  Integer.toString((Integer)args[i]) + ":";
                 }else if (args[i].getClass() == Double.class){
-                    nachricht = nachricht + ":" + Double.toString((Double) args[i]);
+                    nachricht = nachricht +  Double.toString((Double) args[i]) + ":";
                 }else{
-                    nachricht = nachricht + ":" + args[i];
+                    nachricht = nachricht +  args[i] + ":";
                 }
             }
         }//WOHL FERTIG: die args irgendwie in den String einbauen
@@ -62,6 +63,8 @@ public class Sender {
 
 
         public Object invoke() {
+            System.out.println("Invoke aufgerufen");
+
             Socket socket = null;
             try {
                 socket = new Socket(host, port);
@@ -76,6 +79,8 @@ public class Sender {
                     new PrintWriter(
                             new OutputStreamWriter(
                                     socket.getOutputStream()));
+            printWriter.print("ping");
+            printWriter.flush();
             printWriter.print(nachricht);
             printWriter.flush();
             //socket.accept();

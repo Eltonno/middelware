@@ -92,6 +92,7 @@ public class Listener extends Thread {
                 }
             else{
                 //TODO: Exception werfen
+                System.out.println(nachricht + " empfangen. Falsches Format!");
             }
             //WOHL FERTIG:RemoteCall abfangen und so splitten, dass man es bei CommunicationModule ausführen kann.
 
