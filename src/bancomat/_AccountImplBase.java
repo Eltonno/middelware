@@ -21,7 +21,7 @@ public abstract class _AccountImplBase {
 			public double deposit(double amount) throws RuntimeException {
 				Object result = null;
 				try {
-					result = CommunicationModule.invoke(name, host, port, "_BankImplBase", "deposit", amount);
+					result = CommunicationModule.invoke(name, host, port,/* "_BankImplBase,"*/ "deposit", amount);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -33,7 +33,7 @@ public abstract class _AccountImplBase {
 			public double withdraw(double amount) throws RuntimeException {
 				Object result = null;
 				try {
-					result = CommunicationModule.invoke(name, host, port, "_BankImplBase", "withdraw", amount);
+					result = CommunicationModule.invoke(name, host, port/*, "_BankImplBase"*/, "withdraw", amount);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

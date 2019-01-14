@@ -31,7 +31,7 @@ public class INameService extends NameService {
     	try {
     		String host = ob.getCom().getHost();
     		int port = ob.getCom().getPort();
-			schreibeNachricht(socket, "{rebind;" + name + ";" + host + ";" + port + "}");
+			schreibeNachricht(socket, "{rebind;" + name + ";" + host + ";" + Integer.toString(port) + "}");
 			Object antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
 		 	objects.put(name, servant);
