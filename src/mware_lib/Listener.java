@@ -29,7 +29,7 @@ public class Listener extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Listener läuft");
+        System.out.println("Listener läuft auf Port " + port);
         while(true){
             BufferedReader bufferedReader =
                     null;
@@ -43,6 +43,8 @@ public class Listener extends Thread {
             String nachricht = null;
             try {
                 nachricht = bufferedReader.readLine();
+                System.out.println("Listener hat <<" + nachricht + ">> empfangen.");
+
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

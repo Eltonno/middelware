@@ -23,18 +23,23 @@ public class INameService extends NameService {
         this.debug = debug;
         this.ob = ob;
 		socket = new Socket(host,port); // verbindet sich mit Server
-    }
+		System.out.println("INameService gestartet mit host: " + host + " und port: " + port);
+	}
 // TODO: Neuer Thread für jedes Rebind um Fehlern vorzubeugen
     @Override
     public void rebind(Object servant, String name) {
-    	System.out.println(servant.getClass());
+    	System.out.println("rebind beim INameservice aufgerufen.");
     	try {
     		String host = ob.getCom().getHost();
     		int port = ob.getCom().getPort();
+			System.out.println("INameservice sendet an Nameservice folgende Nachricht: " + "{rebind;" + name + ";" + host + ";" + Integer.toString(port) + "}");
+
 			schreibeNachricht(socket, "{rebind;" + name + ";" + host + ";" + Integer.toString(port) + "}");
 			Object antwort = leseNachricht(socket);
-		 	System.out.println(antwort);
+		 	System.out.println(antwort + " als Antwort vom Nameservice bekommen");
 		 	objects.put(name, servant);
+			System.out.println(servant + " unter " + name + " beim INameservice gespeichert.");
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -44,11 +49,16 @@ public class INameService extends NameService {
     @Override
 	//
     public Object resolve(String name) {
-    	try {
+		System.out.println("resolve beim INameservice aufgerufen.");
+
+		try {
+			System.out.println("{resolve;" + name + "; ; } an den Nameservice gesendet");
 			schreibeNachricht(socket, "{resolve;" + name + "; ; }");
 			String antwort = leseNachricht(socket);
-		 	System.out.println(antwort);
-		 //	if(antwort != "null"){
+		 	System.out.println(antwort + " vom Nameservice als Antwort empfangen");
+		 	if(antwort == "null"){
+		 		return null;
+			}
 		 //	String[] values = antwort.split(",");
 		//	if (values[1] == host && (values[2] == Integer.toString(port))){
 	//			return resolveLocal(name);
@@ -62,7 +72,9 @@ public class INameService extends NameService {
     }
 
     public Object resolveLocally(String name){
-    	return objects.getOrDefault(name, null);
+		System.out.println("resolveLocally im INameServer gibt " + objects.getOrDefault(name, null) + " zurück");
+
+		return objects.getOrDefault(name, null);
     	//TODO: Fehlerbehandlung vielleicht? Was wenn nicht vorhanden?
 		//TODO :|| Wenn nicht vorhanden null zurück geben ist aus meiner sicht das logischte
 	}

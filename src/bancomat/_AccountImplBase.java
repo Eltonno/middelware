@@ -19,7 +19,8 @@ public abstract class _AccountImplBase {
 
 			@Override
 			public double deposit(double amount) throws RuntimeException {
-				Object result = null;
+                System.out.println("_AccountImplBase ruft deposit auf bei Name <<" + name + ">>, Host <<" + host + ">> und port <<" + port + ">>");
+                Object result = null;
 				try {
 					result = CommunicationModule.invoke(name, host, port,/* "_BankImplBase,"*/ "deposit", amount);
 				} catch (IOException e) {
@@ -31,7 +32,8 @@ public abstract class _AccountImplBase {
 
 			@Override
 			public double withdraw(double amount) throws RuntimeException {
-				Object result = null;
+                System.out.println("_AccountImplBase ruft withdraw auf bei Name <<" + name + ">>, Host <<" + host + ">> und port <<" + port + ">>");
+                Object result = null;
 				try {
 					result = CommunicationModule.invoke(name, host, port/*, "_BankImplBase"*/, "withdraw", amount);
 				} catch (IOException e) {

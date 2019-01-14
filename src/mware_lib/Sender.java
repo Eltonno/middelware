@@ -44,8 +44,10 @@ public class Sender {
                 nachricht = result.toString();
             }
         Socket socket = new Socket(comhost, comport);
-        System.out.println("Sender läuft");
+        System.out.println("Sender gestartet mit Host: " + comhost + " und Port: " + comport );
         try {
+            System.out.println("Sender sendet: " + nachricht + " als Result");
+
             PrintWriter printWriter =
                     new PrintWriter(
                             new OutputStreamWriter(
@@ -61,8 +63,10 @@ public class Sender {
 
         public Object invoke() throws IOException {
         Socket socket = new Socket(host, port);
-        System.out.println("Sender läuft");
-        try {
+        System.out.println("Sender gestartet mit Host: " + host + " und Port: " + port );
+            System.out.println("Sender sendet: " + nachricht);
+
+            try {
             PrintWriter printWriter =
                     new PrintWriter(
                             new OutputStreamWriter(
@@ -76,7 +80,8 @@ public class Sender {
                                     socket.getInputStream()));
             String result = bufferedReader.readLine();
             socket.close();
-            String empfangen = result;
+                System.out.println("Sender empfängt " + result);
+                String empfangen = result;
                         if ( empfangen.matches("0-9")){
                             return Integer.parseInt(empfangen);
                         }else if (empfangen.matches("(0|([1-9][0-9]*))(\\.[0-9]+)")){

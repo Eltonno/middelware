@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class CommunicationModule {
     static int port;
@@ -24,6 +25,7 @@ public class CommunicationModule {
             e.printStackTrace();
         }
         port = ss.getLocalPort();
+        System.out.println("CommunicationMoudle gestartet mit host: " + host + " und port: " + port);
         //TODO: Habe das socket.accept in die Listener Class umgepackt, weil er sich da sonst dran aufgehangen hatteS
         //EIN RECEIVER IST BENÖTIGT, DER WIE BEIM NAMESERVICE LAUSCHT
         // Socket sock = null;
@@ -46,13 +48,17 @@ public class CommunicationModule {
     }
 
     public static Object invoke(String name, String tohost, int toport, String method, Object... args) throws IOException {
+        System.out.println("invoke beim CommunicationModule aufgerufen.");
         Sender s = new Sender(host, port, name, tohost, toport, method, args);
-    return s.invoke();
+        return s.invoke();
         //WOHL FERTIG: remoteCall befehl an das CommunicationModule von der Adresse der Objektreferenz
 
     }
 
     public void remoteCall(String sendtohost, int sendtoport, String objectName, String methodName, Object... arg) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, IOException {
+        System.out.println("CommunicationModule in remoteCall.");
+        System.out.println("CommunicationModule sendet ObjectBroker localCall mit " + objectName + "," + methodName + "," + Arrays.toString(arg));
+
         Object asdf = ob.localCall(objectName, methodName, arg);
         Sender se = new Sender(host, port, "dummy", sendtohost, sendtoport, methodName, arg);
         se.sendResult(asdf);

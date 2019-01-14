@@ -16,6 +16,7 @@ public abstract class _BankmanagerImplBase {
 
 			@Override
 			public String getAccountID(int key) throws RuntimeException, IOException {
+				System.out.println("_BankmanagerImplBase ruft getAccountID auf bei Name <<" + name + ">>, Host <<" + host + ">> und port <<" + port + ">>");
 				Object result = CommunicationModule.invoke(name, host, port, /*"_BankImplBase", */"getAccountID", key);
 				if (result instanceof RuntimeException) throw (RuntimeException) result;
 				return (String) result;

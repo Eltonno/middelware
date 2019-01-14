@@ -15,6 +15,7 @@ public class ObjectBroker {
 
     private ObjectBroker(String host, int port, boolean debug) throws IOException {
         //con = new ComHandler(host, port, debug);
+        System.out.println("ObjectBroker gestartet mit host: " + host + " und port: " + port);
         this.host = host;
         this.port = port;
         this.debug = debug;
@@ -23,6 +24,7 @@ public class ObjectBroker {
         //int listenerPort = rand.nextInt() + 1;
         //WOHL GELÖST: Abfangen ob Port schon besetzt ist. Vielleicht diesen Teil als Methode aussourcen.
         com = new CommunicationModule(host, nameService, debug, this);
+
     }
 
     public static ObjectBroker init(String serviceHost, int port, boolean debug) throws IOException {
