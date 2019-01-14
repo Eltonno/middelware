@@ -10,16 +10,18 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 
 public class INameService extends NameService {
-    private String host;
-    private int port;
+    private String nshost;
+    private int nsport;
     private boolean debug;
+    ObjectBroker ob;
     HashMap objects = new HashMap();
     Socket socket;
 
-    INameService(String host, int port, boolean debug) throws UnknownHostException, IOException {
-        this.host = host;
-        this.port = port;
+    INameService(String host, int port, boolean debug, ObjectBroker ob) throws UnknownHostException, IOException {
+        this.nshost = host;
+        this.nsport = port;
         this.debug = debug;
+        this.ob = ob;
 		socket = new Socket(host,port); // verbindet sich mit Server
     }
 // TODO: Neuer Thread für jedes Rebind um Fehlern vorzubeugen
@@ -27,6 +29,8 @@ public class INameService extends NameService {
     public void rebind(Object servant, String name) {
     	System.out.println(servant.getClass());
     	try {
+    		String host = ob.getCom().getHost();
+    		int port = ob.getCom().getPort();
 			schreibeNachricht(socket, "{rebind;" + name + ";" + host + ";" + port + "}");
 			Object antwort = leseNachricht(socket);
 		 	System.out.println(antwort);
@@ -63,9 +67,10 @@ public class INameService extends NameService {
 		//TODO :|| Wenn nicht vorhanden null zurück geben ist aus meiner sicht das logischte
 	}
 //TODO: warum gibt es die funktion theoretisch doppelt?
-    public Object resolveLocal(String name){
-    	return objects.get(name);
-	}
+	//TODO: War wohl aus Versehen.
+   // public Object resolveLocal(String name){
+   // 	return objects.get(name);
+	//}
 
 	@Override
 	public void shutdown() {

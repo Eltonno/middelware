@@ -6,13 +6,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class CommunicationModule {
-    int port;
+    static int port;
     INameService nameService;
     boolean debug;
     ObjectBroker ob;
-    String host;
+    static String host;
 
-    public CommunicationModule(String host, INameService nameService, boolean debug, ObjectBroker ob) throws IOException {
+    public  CommunicationModule(String host, INameService nameService, boolean debug, ObjectBroker ob) throws IOException {
     this.nameService = nameService;
     this.debug = debug;
     this.ob = ob;
@@ -37,16 +37,24 @@ public class CommunicationModule {
         listen.start();
     }
 
-    public Object invoke(String name, String host, int port, String method, Object... args) throws IOException {
-    Sender s = new Sender(this, host, port, method, args);
+    String getHost(){
+        return host;
+    }
+
+    int getPort(){
+        return port;
+    }
+
+    public static Object invoke(String name, String tohost, int toport, String method, Object... args) throws IOException {
+        Sender s = new Sender(host, port, name, tohost, toport, method, args);
     return s.invoke();
-        //TODO: remoteCall befehl an das CommunicationModule von der Adresse der Objektreferenz
+        //WOHL FERTIG: remoteCall befehl an das CommunicationModule von der Adresse der Objektreferenz
 
     }
 
-    public void remoteCall(String sendtohost, int sendtoport, String objectName, String methodName, Object... arg) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public void remoteCall(String sendtohost, int sendtoport, String objectName, String methodName, Object... arg) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, IOException {
         Object asdf = ob.localCall(objectName, methodName, arg);
-        Sender se = new Sender(this, sendtohost, sendtoport, methodName, arg);
+        Sender se = new Sender(host, port, "dummy", sendtohost, sendtoport, methodName, arg);
         se.sendResult(asdf);
 
     }

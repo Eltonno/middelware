@@ -10,18 +10,17 @@ public class Sender {
 
     String host;
     int port;
-    CommunicationModule com;
     String nachricht;
 
-    Sender(CommunicationModule com, String host, int port, String method, Object... args){
+    Sender(String comhost, int comport, String name, String host, int port, String method, Object... args){
         this.host = host;
         this.port = port;
-        this.com = com;
-        nachricht = method;
+        nachricht = "remotecall;" + comhost +";" + Integer.toString(comport) + ";" + name + ";" + method;
         if (args.length>0){
+            nachricht = nachricht + ";";
             for (int i = 0; i<args.length; i++){
                 if (args[i].getClass() == Integer.class){
-                    nachricht = nachricht + Integer.toString((Integer) args[i]);
+                    nachricht = nachricht + ":" + Integer.toString((Integer) args[i]);
                 }else if (args[i].getClass() == Double.class){
                     nachricht = nachricht + Double.toString((Double) args[i]);
                 }else{
@@ -31,11 +30,24 @@ public class Sender {
         }//WOHL FERTIG: die args irgendwie in den String einbauen
     }
 
-    public void sendResult(Object result){
-        //TODO: result an den die Addresse schicken
+    public void sendResult(Object result) throws IOException {
+        Socket socket = new Socket(host, port);
+        System.out.println("Sender läuft");
+        try {
+            PrintWriter printWriter =
+                    new PrintWriter(
+                            new OutputStreamWriter(
+                                    socket.getOutputStream()));
+            printWriter.print(result);
+            printWriter.flush();
+            //WOHL FERTIG: result an den die Addresse schicken
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public Object invoke() throws IOException {
+
+        public Object invoke() throws IOException {
         Socket socket = new Socket(host, port);
         System.out.println("Sender läuft");
         try {

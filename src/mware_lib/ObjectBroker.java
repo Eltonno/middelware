@@ -11,14 +11,14 @@ public class ObjectBroker {
     private int port;
     private INameService nameService;
     private static ObjectBroker singleton = null;
-    CommunicationModule com;
+    static CommunicationModule com;
 
     private ObjectBroker(String host, int port, boolean debug) throws IOException {
         //con = new ComHandler(host, port, debug);
         this.host = host;
         this.port = port;
         this.debug = debug;
-        nameService = new INameService(host, port, debug);
+        nameService = new INameService(host, port, debug, this);
         //Random rand = new Random(65535);
         //int listenerPort = rand.nextInt() + 1;
         //WOHL GELÖST: Abfangen ob Port schon besetzt ist. Vielleicht diesen Teil als Methode aussourcen.
@@ -29,6 +29,10 @@ public class ObjectBroker {
         if (singleton == null)
             return singleton = new ObjectBroker(serviceHost, port, debug);
         return singleton;
+    }
+
+    public static CommunicationModule getCom(){
+        return com;
     }
 
     // Liefert den Namensdienst (Stellvetreterobjekt).

@@ -68,6 +68,8 @@ public class Listener extends Thread {
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
                         e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -80,6 +82,8 @@ public class Listener extends Thread {
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
