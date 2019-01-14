@@ -23,11 +23,13 @@ public class ObjectBroker {
         //Random rand = new Random(65535);
         //int listenerPort = rand.nextInt() + 1;
         //WOHL GELÖST: Abfangen ob Port schon besetzt ist. Vielleicht diesen Teil als Methode aussourcen.
+        System.out.println("ob_co"+Integer.toString(port));
         com = new CommunicationModule(host, nameService, debug, this);
 
     }
 
     public static ObjectBroker init(String serviceHost, int port, boolean debug) throws IOException {
+        System.out.println("ob_in"+Integer.toString(port));
         if (singleton == null)
             return singleton = new ObjectBroker(serviceHost, port, debug);
         return singleton;
@@ -50,6 +52,7 @@ public class ObjectBroker {
     }
 
     public Object remoteCall(String name, String host, int port, String methodName, Object... args) throws IOException {
+        System.out.println("ob_rc"+Integer.toString(port));
         return com.invoke(name, host, port, methodName, args);
     }
 
