@@ -4,10 +4,11 @@ import mware_lib.CommunicationModule;
 import mware_lib.ObjectBroker;
 
 import java.io.IOException;
+import java.rmi.server.ExportException;
 
 
 public abstract class _AccountImplBase {
-	public abstract double deposit(double amount) throws IOException;
+	public abstract double deposit(double amount) throws Exception;
 
 	public abstract double withdraw(double amount) throws Exception;
 
@@ -21,7 +22,7 @@ public abstract class _AccountImplBase {
             String ref = (String) rawObjectRef;
 
 			@Override
-			public double deposit(double amount) throws IOException {
+			public double deposit(double amount) throws Exception {
                 ref = ref.replace("\"", "");
 			 String name = ref.split(",")[0];
 			 String host = ref.split(",")[1];
@@ -29,7 +30,7 @@ public abstract class _AccountImplBase {
                 System.out.println("_AccountImplBase ruft deposit auf bei Name <<" + name + ">>, Host <<" + host + ">> und port <<" + port + ">>");
                 Object result = null;
                 result = CommunicationModule.invoke(name, host, port,/* "_BankImplBase,"*/ "deposit", amount);
-               if (result instanceof RuntimeException) throw (RuntimeException) result;
+               if (result instanceof Exception) throw (new Exception(result.toString()));
 				return (double) result;
 
 			}

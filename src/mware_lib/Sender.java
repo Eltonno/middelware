@@ -15,7 +15,7 @@ public class Sender {
     String nachricht;
 
     Sender(String comhost, int comport, String name, String host, int port, String method, Object... args){
-        System.out.println("Im Sender");
+        //System.out.println("Im Sender");
         this.host = host;
         this.port = port;
         this.comhost = comhost;
@@ -45,9 +45,9 @@ public class Sender {
                 nachricht = result.toString();
             }
         Socket socket = new Socket(comhost, comport);
-        System.out.println("Sender gestartet mit Host: " + comhost + " und Port: " + comport );
+        //System.out.println("Sender gestartet mit Host: " + comhost + " und Port: " + comport );
         try {
-            System.out.println("Sender sendet: " + nachricht + " als Result");
+            //System.out.println("Sender sendet: " + nachricht + " als Result");
 
             PrintWriter printWriter =
                     new PrintWriter(
@@ -63,7 +63,7 @@ public class Sender {
 
 
         public Object invoke() {
-            System.out.println("Invoke aufgerufen");
+            //System.out.println("Invoke aufgerufen");
 
             Socket socket = null;
             try {
@@ -71,8 +71,8 @@ public class Sender {
             } catch (IOException e) {
                 return e;
             }
-            System.out.println("Sender gestartet mit Host: " + host + " und Port: " + port );
-            System.out.println("Sender sendet: " + nachricht);
+           // System.out.println("Sender gestartet mit Host: " + host + " und Port: " + port );
+            //System.out.println("Sender sendet: " + nachricht);
 
             try {
             PrintWriter printWriter =
@@ -89,11 +89,11 @@ public class Sender {
                                 new InputStreamReader(
                                         socket.getInputStream()));
                 char[] buffer = new char[1000];
-                System.out.println("Sender>>Nun sollte er lesen");
+               // System.out.println("Sender>>Nun sollte er lesen");
                 int anzahlZeichen = bufferedReader.read(buffer, 0, 1000); // blockiert bis Nachricht empfangen
                 String result = new String(buffer, 0, anzahlZeichen);
             socket.close();
-                System.out.println("Sender empfängt " + result);
+             //   System.out.println("Sender empfängt " + result);
                 String empfangen = result;
                         if ( empfangen.matches("\\d+")){
                             return Integer.parseInt(empfangen);

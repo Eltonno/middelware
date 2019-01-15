@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class CommunicationModule {
     static int port;
     INameService nameService;
-    boolean debug;
+    static boolean debug;
     ObjectBroker ob;
     static String host;
 
@@ -25,7 +25,9 @@ public class CommunicationModule {
             e.printStackTrace();
         }
         port = ss.getLocalPort();
-        System.out.println("CommunicationMoudle gestartet mit host: " + host + " und port: " + port);
+        if(debug) {
+            System.out.println("CommunicationMoudle gestartet mit host: " + host + " und port: " + port);
+        }
         //TODO: Habe das socket.accept in die Listener Class umgepackt, weil er sich da sonst dran aufgehangen hatteS
         Listener listen = new Listener(this, ss, host, port);
         listen.start();
@@ -40,7 +42,9 @@ public class CommunicationModule {
     }
 
     public static Object invoke(String name, String tohost, int toport, String method, Object... args){
-        System.out.println("invoke beim CommunicationModule aufgerufen.");
+        if(debug) {
+            System.out.println("invoke beim CommunicationModule aufgerufen.");
+        }
         Sender s = new Sender(host, port, name, tohost, toport, method, args);
         return s.invoke();
         //WOHL FERTIG: remoteCall befehl an das CommunicationModule von der Adresse der Objektreferenz
@@ -48,9 +52,10 @@ public class CommunicationModule {
     }
 
     public String remoteCall(String sendtohost, int sendtoport, String objectName, String methodName, Object... arg) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, IOException {
-        System.out.println("CommunicationModule in remoteCall.");
-        System.out.println("CommunicationModule sendet ObjectBroker localCall mit " + objectName + "," + methodName + "," + Arrays.toString(arg));
-
+        if (debug) {
+            System.out.println("CommunicationModule in remoteCall.");
+            System.out.println("CommunicationModule sendet ObjectBroker localCall mit " + objectName + "," + methodName + "," + Arrays.toString(arg));
+        }
         return ob.localCall(objectName, methodName, arg);
         //Sender se = new Sender(host, port, "dummy", sendtohost, sendtoport, methodName, arg);
         //se.sendResult(asdf);
