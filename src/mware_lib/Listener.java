@@ -25,10 +25,12 @@ public class Listener extends Thread {
         System.out.println("Listener läuft auf Port " + port);
         Socket socket = null;
 
-        while (true) {
+       // while (true) {
             // System.out.println("Listener>> In While True");
             try {
                 socket = ss.accept();
+                Listener l = new Listener(com, ss, host, port);
+                l.start();
                 //    System.out.println("Listener>> Verbindung accepted");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -142,7 +144,7 @@ public class Listener extends Thread {
             } catch (StringIndexOutOfBoundsException e) {
                 System.out.println(e);
             }
-        }
+       // }
     }
 }
 

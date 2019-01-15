@@ -22,11 +22,12 @@ public class ObjectBroker {
         this.host = host;
         this.port = port;
         this.debug = debug;
-        nameService = new INameService(host, port, debug, this);
+        //this.debug = true;
+        nameService = new INameService(host, port, this.debug, this);
         //Random rand = new Random(65535);
         //int listenerPort = rand.nextInt() + 1;
         //WOHL GELÖST: Abfangen ob Port schon besetzt ist. Vielleicht diesen Teil als Methode aussourcen.
-        com = new CommunicationModule(host, nameService, debug, this);
+        com = new CommunicationModule(host, nameService, this.debug, this);
 
     }
 
