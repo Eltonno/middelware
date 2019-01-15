@@ -9,7 +9,7 @@ import java.io.IOException;
 public abstract class _AccountImplBase {
 	public abstract double deposit(double amount) throws IOException;
 
-	public abstract double withdraw(double amount) throws IOException;
+	public abstract double withdraw(double amount) throws Exception;
 
 	public static _AccountImplBase narrowCast(Object rawObjectRef) throws IOException {
 
@@ -35,7 +35,7 @@ public abstract class _AccountImplBase {
 			}
 
 			@Override
-			public double withdraw(double amount) throws IOException {
+			public double withdraw(double amount) throws Exception {
                 ref = ref.replace("\"", "");
                 String name = ref.split(",")[0];
                 String host = ref.split(",")[1];
@@ -45,7 +45,7 @@ public abstract class _AccountImplBase {
 
 
                     result = CommunicationModule.invoke(name, host, port/*, "_BankImplBase"*/, "withdraw", amount);
-                if (result instanceof RuntimeException) throw (RuntimeException) result;
+                if (result instanceof Exception) throw (new Exception(result.toString()));
 				return (double) result;
 
 			}

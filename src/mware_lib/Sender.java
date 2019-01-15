@@ -95,20 +95,24 @@ public class Sender {
             socket.close();
                 System.out.println("Sender empfängt " + result);
                 String empfangen = result;
-                        if ( result.matches("\\d+")){
+                        if ( empfangen.matches("\\d+")){
                             return Integer.parseInt(empfangen);
-                        }else if (result.matches("\\d+\\.\\d+")){
+                        }else if (empfangen.matches("\\d+\\.\\d+")){
                             return Double.parseDouble(empfangen);
+                        }else if (empfangen.contains("Exception")){
+                            throw(new Exception(empfangen));
                         }else{
-                            return result;
+                            return empfangen;
                         }
         }
 
          catch (IOException e) {
             System.out.println("I/O error: " + e);
             return e;
-        }
-        //TODO:Exception senden
+        } catch (Exception e) {
+                return e;
+            }
+            //TODO:Exception senden
 
     }
 

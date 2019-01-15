@@ -24,15 +24,15 @@ public class Listener extends Thread {
     public void run() {
         System.out.println("Listener läuft auf Port " + port);
         Socket socket = null;
-        try {
-            socket = ss.accept();
-            System.out.println("Listener>> Verbindung accepted");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         while (true) {
             System.out.println("Listener>> In While True");
-
+            try {
+                socket = ss.accept();
+                System.out.println("Listener>> Verbindung accepted");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             BufferedReader bufferedReader =
                     null;
             try {
@@ -82,6 +82,9 @@ public class Listener extends Thread {
                             e.printStackTrace();
                         } catch (IOException e) {
                             e.printStackTrace();
+                        } catch (StringIndexOutOfBoundsException e){
+                            System.out.println(e);
+
                         }
                     }
                 } else if (empfangen.length == 5) {
@@ -99,6 +102,8 @@ public class Listener extends Thread {
                             e.printStackTrace();
                         } catch (IOException e) {
                             e.printStackTrace();
+                        }catch (StringIndexOutOfBoundsException e){
+                            System.out.println(e);
                         }
                     }
                 } else {
@@ -109,7 +114,9 @@ public class Listener extends Thread {
 
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }catch (StringIndexOutOfBoundsException e){
+                System.out.println(e);
+                }
         }
     }
 }
