@@ -60,13 +60,14 @@ public class ObjectBroker {
 
     public String localCall(String name, String methodName, Object... args) {
         Object resolved = nameService.resolveLocally(name);
+        System.out.println("OB>>> resolved Methods:" + Arrays.toString(resolved.getClass().getDeclaredMethods()));
         Class[] argtypes = new Class[args.length];
         if (args.length > 0) {
             for (int i = 0; i < args.length; i++) {
                 if (args[i].getClass() == Integer.class) {
-                    argtypes[i] = Integer.class;
+                    argtypes[i] = int.class;
                 } else if (args[i].getClass() == Double.class) {
-                    argtypes[i] = Double.class;
+                    argtypes[i] = double.class;
                 } else {
                     argtypes[i] = String.class;
                 }
