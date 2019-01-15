@@ -3,6 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
 
 // TODO: Die fertigen Handler Klassen zuende nacharbeiten, Klassen müssten so mit unserem Programm zusammenarbeiten
 public class compiler {
@@ -12,7 +13,9 @@ public class compiler {
         String fileSeparator = System.getProperty("file.separator");
         String wClass = "";
         String module = "";
-        String newLine = "";
+        String newLine;
+        String functions = "";
+        String abstracts;
         Path pathImpl = null;
         Path pathHandler = null;
         byte[] bytes;
@@ -33,40 +36,31 @@ public class compiler {
                         pathImpl = Paths.get(module+fileSeparator+"_"+wClass+"ImplBase.java");
                         Files.deleteIfExists(pathImpl);
                         String textImpl = "package "+module+";\n\n" +
-                                "import mware_lib.CommunicationModule;\n"+
-                                "public abstract class _"+parts[1]+"ImplBase {\n\n"+
-                                "\t\tpublic static _"+wClass+"ImplBase narrowCast(Object rawObjectRef){\n" +
-                                "return new _"+wClass+"Handler(rawObjectRef);\n}";
+                                "\n" +
+                                "import mware_lib.CommunicationModule;\n" +
+                                "import java.io.IOException;\n\n"+
+                                "public abstract class _"+parts[1]+"ImplBase {\n";
                         bytes = textImpl.getBytes();
                         Files.write(pathImpl,bytes,StandardOpenOption.CREATE_NEW,StandardOpenOption.WRITE);
-                        pathHandler = Paths.get(module+fileSeparator+"_"+wClass+"Handler.java");
-                        Files.deleteIfExists(pathHandler);
-                        String textHandler = "package "+module+";\n\n" +
-                                "import mware_lib.ObjectBroker;\n"+
-                                "public  class _"+parts[1]+"Handler extends _"+parts[1]+"ImplBase {\n\n"+
-                                "private static String name;\n"+
-                                "private static String host;\n"+
-                                "private static int port;\n"+
-                                "ObjectBroker ob;\n\n"+
-                                "_"+parts[1]+"Handler(Object rawObjectRef){\n"+
-                                "name = rawObjectRef.toString().split(\",\")[0];\n" +
-                                "host = rawObjectRef.toString().split(\",\")[1];\n" +
-                                "port = Integer.parseInt(rawObjectRef.toString().split(\",\")[2]);\n" +
-                                "ob = ObjectBroker.init(host, port, false);\n}\n"+
-                                "\t\tpublic static _"+wClass+"Handler narrowCast(Object rawObjectRef){\n" +
-                                "return new _"+wClass+"Handler(rawObjectRef);}\n";
-                        bytes = textHandler.getBytes();
-                        Files.write(pathHandler,bytes,StandardOpenOption.CREATE_NEW,StandardOpenOption.WRITE);
                         break;
                     case "\t};" :
-                        textImpl = "}";
+                        textImpl = "\t\tpublic static _"+wClass+"ImplBase narrowCast(Object rawObjectRef) throws IOException{\n" +
+                                "\t    return new _"+wClass+"ImplBase() {\n" +
+                                "\n" +
+                                "            String ref = (String) rawObjectRef;\n\n" +
+                                functions +
+                                "};\n}\n}";
                         bytes = textImpl.getBytes();
                         Files.write(pathImpl,bytes,StandardOpenOption.APPEND,StandardOpenOption.WRITE);
-                        textHandler = "}";
+                        functions = "";
+                        /*textHandler = "}";
                         bytes = textHandler.getBytes();
-                        Files.write(pathHandler,bytes,StandardOpenOption.APPEND,StandardOpenOption.WRITE);
+                        Files.write(pathHandler,bytes,StandardOpenOption.APPEND,StandardOpenOption.WRITE);*/
                         break;
                     case "};":
+                        /*textImpl = "}";
+                        bytes = textImpl.getBytes();
+                        Files.write(pathImpl,bytes,StandardOpenOption.APPEND,StandardOpenOption.WRITE);*/
                         break;
                     default:
                         newLine = "";
@@ -81,16 +75,24 @@ public class compiler {
                         for (String a:parts) {
                                 newLine = newLine +" "+a.replace("\t","");
                         }
-                        textImpl = "\tpublic abstract "+newLine.replace("string","String")+" throws Exception\n";
+                        textImpl = "\tpublic abstract "+newLine.replace("string","String").replace(";", "")+" throws Exception;\n\n";
+                        functions = functions +
+                            "\t\t\t@Override\n" +
+                                "\t\t\tpublic "+newLine.replace("string","String").replace(";","")+" throws Exception {\n" +
+                                "\t\t\t\tref = ref.replace(\"\\\"\", \"\");\n" +
+                                "\t\t\tString name = ref.split(\",\")[0];\n" +
+                                "\t\t\tString host = ref.split(\",\")[1];\n" +
+                                "\t\t\tint port = Integer.parseInt(ref.split(\",\")[2]);\n" +
+                                "                Object result = null;\n" +
+                                "                result = CommunicationModule.invoke(name, host, port, \"deposit\", "+parts[2].replace(")","").replace(";","")+");\n" +
+                                "                if (result instanceof Exception) {\n" +
+                                "                   throw new RuntimeException(result.toString());\n" +
+                                "               }\n" +
+                                "\t\t\t\treturn "+value+";\n" +
+                                "\n" +
+                                "\t\t\t}\n\n";
                         bytes = textImpl.getBytes();
                         Files.write(pathImpl,bytes,StandardOpenOption.APPEND,StandardOpenOption.WRITE);
-                        newLine = newLine.replaceAll(";","");
-                        textHandler = "\tpublic "+newLine.replace("string","String")+" throws Exception {\n"+
-                        "Object result = this.ob.remoteCall(name, host, port,"+parts[1]+","+parts[3]+");\n"+
-                        "if (result instanceof RuntimeException) throw (RuntimeException) result;\n"+
-                        "return "+value+";\n}\n";
-                        bytes = textHandler.getBytes();
-                        Files.write(pathHandler,bytes,StandardOpenOption.APPEND,StandardOpenOption.WRITE);
                         break;
                 }
                 line = reader.readLine();
