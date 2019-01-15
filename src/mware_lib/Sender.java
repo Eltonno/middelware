@@ -95,9 +95,9 @@ public class Sender {
             socket.close();
              //   System.out.println("Sender empfängt " + result);
                 String empfangen = result;
-                        if ( empfangen.matches("\\d+")){
+                        if ( empfangen.matches("-?\\d+")){
                             return Integer.parseInt(empfangen);
-                        }else if (empfangen.matches("\\d+\\.\\d+")){
+                        }else if (empfangen.matches("-?\\d+\\.\\d+")){
                             return Double.parseDouble(empfangen);
                         }else if (empfangen.contains("Exception")){
                             return(new RuntimeException(empfangen));

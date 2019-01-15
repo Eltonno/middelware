@@ -27,11 +27,14 @@ public abstract class _AccountImplBase {
 			 String name = ref.split(",")[0];
 			 String host = ref.split(",")[1];
 			int port = Integer.parseInt(ref.split(",")[2]);
-                System.out.println("_AccountImplBase ruft deposit auf bei Name <<" + name + ">>, Host <<" + host + ">> und port <<" + port + ">>");
+                //System.out.println("_AccountImplBase ruft deposit auf bei Name <<" + name + ">>, Host <<" + host + ">> und port <<" + port + ">>");
                 Object result = null;
                 result = CommunicationModule.invoke(name, host, port,/* "_BankImplBase,"*/ "deposit", amount);
-               if (result instanceof Exception) throw (new RuntimeException(result.toString()));
-				return (double) result;
+               //System.out.println("result in deposit ist: " + result + " von Klasse " + result.getClass());
+                if (result instanceof Exception) {
+                   throw new RuntimeException(result.toString());
+               }
+				return (double)result;
 
 			}
 
@@ -41,7 +44,7 @@ public abstract class _AccountImplBase {
                 String name = ref.split(",")[0];
                 String host = ref.split(",")[1];
                 int port = Integer.parseInt(ref.split(",")[2]);
-                System.out.println("_AccountImplBase ruft withdraw auf bei Name <<" + name + ">>, Host <<" + host + ">> und port <<" + port + ">>");
+                //System.out.println("_AccountImplBase ruft withdraw auf bei Name <<" + name + ">>, Host <<" + host + ">> und port <<" + port + ">>");
                 Object result = null;
 
 
