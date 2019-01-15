@@ -36,7 +36,7 @@ public abstract class _AccountImplBase {
 			String host = ref.split(",")[1];
 			int port = Integer.parseInt(ref.split(",")[2]);
                 Object result = null;
-                result = CommunicationModule.invoke(name, host, port, "deposit", param0);
+                result = CommunicationModule.invoke(name, host, port, "withdraw", param0);
                 if (result instanceof Exception) {
                    throw new RuntimeException(result.toString());
                }

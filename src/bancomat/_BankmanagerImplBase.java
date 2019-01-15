@@ -19,7 +19,7 @@ public abstract class _BankmanagerImplBase {
 			String host = ref.split(",")[1];
 			int port = Integer.parseInt(ref.split(",")[2]);
                 Object result = null;
-                result = CommunicationModule.invoke(name, host, port, "deposit", key);
+                result = CommunicationModule.invoke(name, host, port, "getAccountID", key);
                 if (result instanceof Exception) {
                    throw new RuntimeException(result.toString());
                }
