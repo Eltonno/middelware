@@ -3,6 +3,7 @@ package mware_lib;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method.*;
+import java.util.Arrays;
 
 
 public class ObjectBroker {
@@ -57,7 +58,7 @@ public class ObjectBroker {
         return com.invoke(name, host, port, methodName, args);
     }
 
-    public Object localCall(String name, String methodName, Object... args) {
+    public String localCall(String name, String methodName, Object... args) {
         Object resolved = nameService.resolveLocally(name);
         Class[] argtypes = new Class[args.length];
         if (args.length > 0) {
@@ -70,21 +71,22 @@ public class ObjectBroker {
                     argtypes[i] = String.class;
                 }
             }
+            System.out.println("OB>>> args:" + Arrays.toString(args) + "; argtypes: " + Arrays.toString(argtypes));
+        }
             try {
-                return resolved.getClass().getDeclaredMethod(methodName, argtypes).invoke(resolved, args);
+                return resolved.getClass().getDeclaredMethod(methodName, argtypes).invoke(resolved, args).toString();
             } catch (IllegalAccessException e) {
-                return e;
+                return e.toString();
             } catch (InvocationTargetException e) {
-                return e;
+                return e.toString();
             } catch (NoSuchMethodException e) {
-                return e;
+                return e.toString();
             }
             //WOHL FERTIG: Mittels invoke die Methode ausführen
             //WOHL FERTIG: Das Ergebniss der Methode zurückgeben.
 
 
-        }
-        //TODO: EXCEPTION WERFEN
-        return "error";
+
+        //: EXCEPTION WERFEN
     }
 }

@@ -58,7 +58,7 @@ public class INameService extends NameService {
 			String antwort = leseNachricht(socket);
 			//antwort.replace("\"", " ");
 		 	System.out.println(antwort + " vom Nameservice als Antwort empfangen");
-		 	if(antwort == "null"){
+		 	if(antwort.matches("null")){
 		 		return null;
 			}
 		 //	String[] values = antwort.split(",");

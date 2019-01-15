@@ -79,25 +79,28 @@ public class Sender {
                     new PrintWriter(
                             new OutputStreamWriter(
                                     socket.getOutputStream()));
-            printWriter.print("ping");
-            printWriter.flush();
+            //printWriter.print("ping");
+            //printWriter.flush();
             printWriter.print(nachricht);
             printWriter.flush();
             //socket.accept();
-            BufferedReader bufferedReader =
-                    new BufferedReader(
-                            new InputStreamReader(
-                                    socket.getInputStream()));
-            String result = bufferedReader.readLine();
+                BufferedReader bufferedReader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        socket.getInputStream()));
+                char[] buffer = new char[1000];
+                System.out.println("Sender>>Nun sollte er lesen");
+                int anzahlZeichen = bufferedReader.read(buffer, 0, 1000); // blockiert bis Nachricht empfangen
+                String result = new String(buffer, 0, anzahlZeichen);
             socket.close();
                 System.out.println("Sender empfängt " + result);
                 String empfangen = result;
-                        if ( empfangen.matches("0-9")){
+                        if ( result.matches("\\d+")){
                             return Integer.parseInt(empfangen);
-                        }else if (empfangen.matches("(0|([1-9][0-9]*))(\\.[0-9]+)")){
+                        }else if (result.matches("\\d+\\.\\d+")){
                             return Double.parseDouble(empfangen);
                         }else{
-                            return empfangen;
+                            return result;
                         }
         }
 
