@@ -100,7 +100,7 @@ public class Sender {
                         }else if (empfangen.matches("\\d+\\.\\d+")){
                             return Double.parseDouble(empfangen);
                         }else if (empfangen.contains("Exception")){
-                            throw(new Exception(empfangen));
+                            return(new RuntimeException(empfangen));
                         }else{
                             return empfangen;
                         }

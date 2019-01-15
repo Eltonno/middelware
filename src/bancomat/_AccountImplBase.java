@@ -30,7 +30,7 @@ public abstract class _AccountImplBase {
                 System.out.println("_AccountImplBase ruft deposit auf bei Name <<" + name + ">>, Host <<" + host + ">> und port <<" + port + ">>");
                 Object result = null;
                 result = CommunicationModule.invoke(name, host, port,/* "_BankImplBase,"*/ "deposit", amount);
-               if (result instanceof Exception) throw (new Exception(result.toString()));
+               if (result instanceof Exception) throw (new RuntimeException(result.toString()));
 				return (double) result;
 
 			}
@@ -46,7 +46,7 @@ public abstract class _AccountImplBase {
 
 
                     result = CommunicationModule.invoke(name, host, port/*, "_BankImplBase"*/, "withdraw", amount);
-                if (result instanceof Exception) throw (new Exception(result.toString()));
+                if (result instanceof Exception) throw (new RuntimeException(result.toString()));
 				return (double) result;
 
 			}

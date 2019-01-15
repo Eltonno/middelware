@@ -85,9 +85,11 @@ public class ObjectBroker {
             } catch (IllegalAccessException e) {
                 return e.toString();
             } catch (InvocationTargetException e) {
-                return e.toString();
+                return e.getCause().toString();
             } catch (NoSuchMethodException e) {
                 return e.toString();
+            }catch (RuntimeException e){
+            return e.toString();
             }
             //WOHL FERTIG: Mittels invoke die Methode ausführen
             //WOHL FERTIG: Das Ergebniss der Methode zurückgeben.

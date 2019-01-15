@@ -26,10 +26,10 @@ public class Listener extends Thread {
         Socket socket = null;
 
         while (true) {
-           // System.out.println("Listener>> In While True");
+            // System.out.println("Listener>> In While True");
             try {
                 socket = ss.accept();
-            //    System.out.println("Listener>> Verbindung accepted");
+                //    System.out.println("Listener>> Verbindung accepted");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -41,7 +41,7 @@ public class Listener extends Thread {
                                 new InputStreamReader(
                                         socket.getInputStream()));
                 char[] buffer = new char[250];
-               // System.out.println("Listener>>Nun sollte er lesen");
+                // System.out.println("Listener>>Nun sollte er lesen");
                 int anzahlZeichen = bufferedReader.read(buffer, 0, 250); // blockiert bis Nachricht empfangen
                 String nachricht = new String(buffer, 0, anzahlZeichen);
                 //System.out.println("Listener hat <<" + nachricht + ">> empfangen.");
@@ -50,7 +50,7 @@ public class Listener extends Thread {
                 if (empfangen.length == 6) {
                     //System.out.println("Listener>>Empfangen.length = 6. empfangen[0] = " + empfangen[0]);
                     if (empfangen[0].matches("remotecall")) {
-                       // System.out.println("Listener>>remotecall erkannt");
+                        // System.out.println("Listener>>remotecall erkannt");
                         String[] arglist = empfangen[5].split(":");
                         Object[] params = new Object[arglist.length];
                         for (int i = 0; i < arglist.length; i++) {
@@ -86,16 +86,35 @@ public class Listener extends Thread {
                             System.out.println(e);
 
                         }*/
-                        }catch (Exception e){
+                        } catch (RuntimeException e) {
+                            PrintWriter printWriter =
+                                    null;
+                            try {
+                                printWriter = new PrintWriter(
+                                        new OutputStreamWriter(
+                                                socket.getOutputStream()));
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                            //printWriter.print("ping");
+                            //printWriter.flush();
+                            printWriter.print(e.toString());
+                            printWriter.flush();
+                            e.printStackTrace();
+                        } catch (NoSuchMethodException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
                             e.printStackTrace();
                         }
                     }
                 } else if (empfangen.length == 5) {
-                   // System.out.println("Listener>>Empfangen.length = 5");
+                    // System.out.println("Listener>>Empfangen.length = 5");
                     if (empfangen[0].matches("remotecall")) {
-                     //   System.out.println("Listener>>remotecall erkannt");
+                        //   System.out.println("Listener>>remotecall erkannt");
                         try {
-                        //    System.out.println("Listener>>com.remoteCall aufrufen");
+                            //    System.out.println("Listener>>com.remoteCall aufrufen");
                             com.remoteCall(empfangen[1], Integer.parseInt(empfangen[2]), empfangen[3], empfangen[4]);
                         } catch (NoSuchMethodException e) {
                             e.printStackTrace();
@@ -105,8 +124,11 @@ public class Listener extends Thread {
                             e.printStackTrace();
                         } catch (IOException e) {
                             e.printStackTrace();
-                        }catch (StringIndexOutOfBoundsException e){
+                        } catch (StringIndexOutOfBoundsException e) {
                             System.out.println(e);
+                        } catch (RuntimeException e) {
+                            System.out.println(e);
+
                         }
                     }
                 } else {
@@ -117,9 +139,10 @@ public class Listener extends Thread {
 
             } catch (IOException e) {
                 e.printStackTrace();
-            }catch (StringIndexOutOfBoundsException e){
+            } catch (StringIndexOutOfBoundsException e) {
                 System.out.println(e);
-                }
+            }
         }
     }
 }
+
