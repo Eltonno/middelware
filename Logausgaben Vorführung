@@ -1,0 +1,84 @@
+Nameservice
+<0.63.0>
+15.01 16:24:05,823| ListenSocket initiated and in loop function
+15.01 16:24:08,176| ListenSocket initiated and in loop function
+15.01 16:24:08,176| Socket connection accepted, wait to handle recv
+15.01 16:24:08,182| recieved List is composed of: rebind|zumsel|192.168.2.111|58789
+15.01 16:24:08,182| rebind request from: <0.67.0> with: zumsel|192.168.2.111|58789
+15.01 16:24:08,182| rebind of zumsel with Host: 192.168.2.111 and Port: 58789 was successful
+15.01 16:24:08,182| Socket connection accepted, wait to handle recv
+15.01 16:24:08,185| recieved List is composed of: rebind|DK19300|192.168.2.111|58789
+15.01 16:24:08,185| rebind request from: <0.67.0> with: DK19300|192.168.2.111|58789
+15.01 16:24:08,185| rebind of DK19300 with Host: 192.168.2.111 and Port: 58789 was successful
+15.01 16:24:08,185| Socket connection accepted, wait to handle recv
+15.01 16:24:08,185| recieved List is composed of: rebind|DE30031|192.168.2.111|58789
+15.01 16:24:08,185| rebind request from: <0.67.0> with: DE30031|192.168.2.111|58789
+15.01 16:24:08,185| rebind of DE30031 with Host: 192.168.2.111 and Port: 58789 was successful
+15.01 16:24:08,186| Socket connection accepted, wait to handle recv
+15.01 16:24:10,449| ListenSocket initiated and in loop function
+15.01 16:24:10,449| Socket connection accepted, wait to handle recv
+15.01 16:24:10,454| recieved List is composed of: resolve|zumsel| |
+15.01 16:24:10,454| requestHandler is requested to handle resolve
+15.01 16:24:10,454| resolve request from: <0.82.0> with: zumsel
+15.01 16:24:10,454| resolve has found Refrence: "192.168.2.111","58789"
+15.01 16:24:10,454| Socket connection accepted, wait to handle recv
+15.01 16:24:10,464| recieved List is composed of: resolve|DK19300| |
+15.01 16:24:10,464| requestHandler is requested to handle resolve
+15.01 16:24:10,464| resolve request from: <0.82.0> with: DK19300
+15.01 16:24:10,464| resolve has found Refrence: "192.168.2.111","58789"
+15.01 16:24:10,464| Socket connection accepted, wait to handle recv
+15.01 16:24:10,467| recieved List is composed of: resolve|DE30031| |
+15.01 16:24:10,467| requestHandler is requested to handle resolve
+15.01 16:24:10,467| resolve request from: <0.82.0> with: DE30031
+15.01 16:24:10,467| resolve has found Refrence: "192.168.2.111","58789"
+15.01 16:24:10,467| Socket connection accepted, wait to handle recv
+15.01 16:24:10,479| recieved List is composed of: resolve|egon3u089| |
+15.01 16:24:10,479| requestHandler is requested to handle resolve
+15.01 16:24:10,479| resolve request from: <0.82.0> with: egon3u089
+15.01 16:24:10,479| resolve has found nothing and sends null as a string back
+15.01 16:24:10,479| Socket connection accepted, wait to handle recv
+15.01 16:24:12,555| Socket connection is already closed
+15.01 16:30:09,336| Socket connection is already closed
+
+
+Server
+25000
+ns25000
+Listener läuft auf Port 58789
+Press ENTER to exit...
+0:123int
+0:234int
+0:122.0double
+0:2.0double
+0:233.0double
+0:233.0double
+0:-355.0double
+0:-356.0double
+0:1.0double
+0:1.0double
+0:1.0double
+0:1.0double
+0:1.0double
+0:1.0double
+
+
+Client
+ns25000
+Listener läuft auf Port 58791
+balance=122.0
+balance=124.0
+balance=233.0
+balance=466.0
+java.lang.RuntimeException: java.lang.RuntimeException: Your mum said you should not bet
+Returned null for invalid object - O.K.
+Concurrency test:
+Waiting for threads to finish..
+Cod and rice twice
+1
+1
+1
+1
+1
+1
+done.
+Shutting down Object Broker
