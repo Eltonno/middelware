@@ -1,124 +1,68 @@
 Nameservice
+
 <0.63.0>
-15.01 20:08:18,916| ListenSocket initiated and in loop function
-15.01 20:08:24,140| ListenSocket initiated and in loop function
-15.01 20:08:24,140| Socket connection accepted, wait to handle recv
-15.01 20:08:24,146| recieved List is composed of: rebind|zumsel|192.168.2.106|59826
-15.01 20:08:24,146| rebind request from: <0.67.0> with: zumsel|192.168.2.106|59826
-15.01 20:08:24,146| rebind of zumsel with Host: 192.168.2.106 and Port: 59826 was successful
-15.01 20:08:24,146| Socket connection accepted, wait to handle recv
-15.01 20:08:24,150| recieved List is composed of: rebind|DK19300|192.168.2.106|59826
-15.01 20:08:24,150| rebind request from: <0.67.0> with: DK19300|192.168.2.106|59826
-15.01 20:08:24,150| rebind of DK19300 with Host: 192.168.2.106 and Port: 59826 was successful
-15.01 20:08:24,150| Socket connection accepted, wait to handle recv
-15.01 20:08:24,150| recieved List is composed of: rebind|DE30031|192.168.2.106|59826
-15.01 20:08:24,150| rebind request from: <0.67.0> with: DE30031|192.168.2.106|59826
-15.01 20:08:24,150| rebind of DE30031 with Host: 192.168.2.106 and Port: 59826 was successful
-15.01 20:08:24,150| Socket connection accepted, wait to handle recv
-15.01 20:08:26,129| ListenSocket initiated and in loop function
-15.01 20:08:26,129| Socket connection accepted, wait to handle recv
-15.01 20:08:26,134| recieved List is composed of: resolve|zumsel| | 
-15.01 20:08:26,134| requestHandler is requested to handle resolve
-15.01 20:08:26,134| resolve request from: <0.82.0> with: zumsel
-15.01 20:08:26,134| resolve has found Refrence: "192.168.2.106","59826"
-15.01 20:08:26,134| Socket connection accepted, wait to handle recv
-15.01 20:08:26,144| recieved List is composed of: resolve|DK19300| | 
-15.01 20:08:26,144| requestHandler is requested to handle resolve
-15.01 20:08:26,144| resolve request from: <0.82.0> with: DK19300
-15.01 20:08:26,144| resolve has found Refrence: "192.168.2.106","59826"
-15.01 20:08:26,144| Socket connection accepted, wait to handle recv
-15.01 20:08:26,148| recieved List is composed of: resolve|DE30031| | 
-15.01 20:08:26,148| requestHandler is requested to handle resolve
-15.01 20:08:26,148| resolve request from: <0.82.0> with: DE30031
-15.01 20:08:26,148| resolve has found Refrence: "192.168.2.106","59826"
-15.01 20:08:26,148| Socket connection accepted, wait to handle recv
-15.01 20:08:26,164| recieved List is composed of: resolve|egon3u089| | 
-15.01 20:08:26,164| requestHandler is requested to handle resolve
-15.01 20:08:26,164| resolve request from: <0.82.0> with: egon3u089
-15.01 20:08:26,164| resolve has found nothing and sends null as a string back
-15.01 20:08:26,164| Socket connection accepted, wait to handle recv
-15.01 20:08:27,780| Socket connection is already closed
+16.01 08:36:23,058| ListenSocket initiated and in loop function
+16.01 08:36:28,720| ListenSocket initiated and in loop function
+16.01 08:36:28,721| Socket connection accepted, wait to handle recv
+16.01 08:36:28,729| recieved List is composed of: rebind|zumsel|141.22.245.154|60079
+16.01 08:36:28,729| rebind request from: <0.67.0> with: zumsel|141.22.245.154|60079
+16.01 08:36:28,729| rebind of zumsel with Host: 141.22.245.154 and Port: 60079 was successful
+16.01 08:36:28,729| Socket connection accepted, wait to handle recv
+16.01 08:36:28,732| recieved List is composed of: rebind|DK19300|141.22.245.154|60079
+16.01 08:36:28,732| rebind request from: <0.67.0> with: DK19300|141.22.245.154|60079
+16.01 08:36:28,732| rebind of DK19300 with Host: 141.22.245.154 and Port: 60079 was successful
+16.01 08:36:28,732| Socket connection accepted, wait to handle recv
+16.01 08:36:28,732| recieved List is composed of: rebind|DE30031|141.22.245.154|60079
+16.01 08:36:28,732| rebind request from: <0.67.0> with: DE30031|141.22.245.154|60079
+16.01 08:36:28,732| rebind of DE30031 with Host: 141.22.245.154 and Port: 60079 was successful
+16.01 08:36:28,732| Socket connection accepted, wait to handle recv
+16.01 08:36:34,602| ListenSocket initiated and in loop function
+16.01 08:36:34,602| Socket connection accepted, wait to handle recv
+16.01 08:36:34,608| recieved List is composed of: resolve|zumsel| |
+16.01 08:36:34,608| requestHandler is requested to handle resolve
+16.01 08:36:34,608| resolve request from: <0.82.0> with: zumsel
+16.01 08:36:34,608| resolve has found Refrence: "141.22.245.154","60079"
+16.01 08:36:34,608| Socket connection accepted, wait to handle recv
+16.01 08:36:34,618| recieved List is composed of: resolve|DK19300| |
+16.01 08:36:34,618| requestHandler is requested to handle resolve
+16.01 08:36:34,618| resolve request from: <0.82.0> with: DK19300
+16.01 08:36:34,618| resolve has found Refrence: "141.22.245.154","60079"
+16.01 08:36:34,618| Socket connection accepted, wait to handle recv
+16.01 08:36:34,621| recieved List is composed of: resolve|DE30031| |
+16.01 08:36:34,621| requestHandler is requested to handle resolve
+16.01 08:36:34,621| resolve request from: <0.82.0> with: DE30031
+16.01 08:36:34,621| resolve has found Refrence: "141.22.245.154","60079"
+16.01 08:36:34,621| Socket connection accepted, wait to handle recv
+16.01 08:36:34,632| recieved List is composed of: resolve|egon3u089| |
+16.01 08:36:34,632| requestHandler is requested to handle resolve
+16.01 08:36:34,632| resolve request from: <0.82.0> with: egon3u089
+16.01 08:36:34,633| resolve has found nothing and sends null as a string back
+16.01 08:36:34,633| Socket connection accepted, wait to handle recv
+16.01 08:36:36,257| Socket connection is already closed
+16.01 08:36:46,191| Socket connection is already closed
 
 
 Server
-ns25000
-Listener läuft auf Port 59826
+
 Press ENTER to exit...
-Listener läuft auf Port 59826
-0:123int
-Listener läuft auf Port 59826
-0:234int
-Listener läuft auf Port 59826
-0:122.0double
-Listener läuft auf Port 59826
-0:2.0double
-Listener läuft auf Port 59826
-0:233.0double
-Listener läuft auf Port 59826
-0:233.0double
-Listener läuft auf Port 59826
-0:-355.0double
-Listener läuft auf Port 59826
-0:-356.0double
-Listener läuft auf Port 59826
-0:1.0double
-Listener läuft auf Port 59826
-0:1.0double
-Listener läuft auf Port 59826
-0:1.0double
-Listener läuft auf Port 59826
-0:1.0double
-Listener läuft auf Port 59826
-0:1.0double
-Listener läuft auf Port 59826
-0:1.0double
 
 
 Client
-ns25000
-Listener läuft auf Port 59828
-Sender sendet: remotecall;192.168.2.106;59828;zumsel;getAccountID;123:
-Sender empfängt DK19300
-Sender sendet: remotecall;192.168.2.106;59828;zumsel;getAccountID;234:
-Sender empfängt DE30031
-Sender sendet: remotecall;192.168.2.106;59828;DK19300;deposit;122.0:
-Sender empfängt 122.0
+
 balance=122.0
-Sender sendet: remotecall;192.168.2.106;59828;DK19300;withdraw;2.0:
-Sender empfängt 120.0
 balance=120.0
-Sender sendet: remotecall;192.168.2.106;59828;DE30031;deposit;233.0:
-Sender empfängt 233.0
 balance=233.0
-Sender sendet: remotecall;192.168.2.106;59828;DE30031;withdraw;233.0:
-Sender empfängt 0.0
 balance=0.0
-Sender sendet: remotecall;192.168.2.106;59828;DK19300;deposit;-355.0:
-Sender empfängt java.lang.RuntimeException: Your mum said you should not bet
-java.lang.RuntimeException: java.lang.RuntimeException: Your mum said you should not bet
+Your mum said you should not bet
 Returned null for invalid object - O.K.
 Concurrency test:
-Sender sendet: remotecall;192.168.2.106;59828;DK19300;deposit;-356.0:
 Waiting for threads to finish..
-Sender sendet: remotecall;192.168.2.106;59828;DK19300;deposit;1.0:
-Sender empfängt 121.0
 1
-Sender sendet: remotecall;192.168.2.106;59828;DK19300;deposit;1.0:
-Sender empfängt 122.0
 1
-Sender sendet: remotecall;192.168.2.106;59828;DK19300;deposit;1.0:
-Sender empfängt 123.0
 1
-Sender empfängt -233.0
 Cod and rice twice
-Sender sendet: remotecall;192.168.2.106;59828;DK19300;deposit;1.0:
-Sender empfängt -232.0
 1
-Sender sendet: remotecall;192.168.2.106;59828;DK19300;deposit;1.0:
-Sender empfängt -231.0
 1
-Sender sendet: remotecall;192.168.2.106;59828;DK19300;deposit;1.0:
-Sender empfängt -230.0
 1
 done.
 Shutting down Object Broker
