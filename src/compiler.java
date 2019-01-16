@@ -15,7 +15,7 @@ public class compiler {
         String module = "";
         String newLine;
         String functions = "";
-        String abstracts;
+        String params = "";
         Path pathImpl = null;
         Path pathHandler = null;
         byte[] bytes;
@@ -73,7 +73,10 @@ public class compiler {
                             value = "(int) result";
                         }
                         for (String a:parts) {
-                                newLine = newLine +" "+a.replace("\t","");
+                                newLine = newLine +" "+a.replace("\t","").replace(",","");
+                        }
+                        for (int i=2; i <= parts.length-1; i=i+2){
+                          params = params + "," + parts[i].replace(")","").replace(";","");
                         }
                         textImpl = "\tpublic abstract "+newLine.replace("string","String").replace(";", "")+" throws Exception;\n\n";
                         functions = functions +
@@ -84,14 +87,15 @@ public class compiler {
                                 "\t\t\tString host = ref.split(\",\")[1];\n" +
                                 "\t\t\tint port = Integer.parseInt(ref.split(\",\")[2]);\n" +
                                 "                Object result = null;\n" +
-                                "                result = CommunicationModule.invoke(name, host, port, \""+parts[1].replace("(",";").split(";")[0]+"\", "+parts[2].replace(")","").replace(";","")+");\n" +
+                                "                result = CommunicationModule.invoke(name, host, port, \""+parts[1].replace("(",";").split(";")[0]+"\""+params+");\n" +
                                 "                if (result instanceof Exception) {\n" +
-                                "                   throw new RuntimeException(result.toString().replace(\"java.lang.RuntimeException: \", \"\"));\n" +
+                                "                   throw new RuntimeException(result.toString().replace(\"java.lang.RuntimeException: \", \"\"))l;\n" +
                                 "               }\n" +
                                 "\t\t\t\treturn "+value+";\n" +
                                 "\n" +
                                 "\t\t\t}\n\n";
                         bytes = textImpl.getBytes();
+                        params = "";
                         Files.write(pathImpl,bytes,StandardOpenOption.APPEND,StandardOpenOption.WRITE);
                         break;
                 }
