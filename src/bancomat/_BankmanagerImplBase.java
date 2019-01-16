@@ -21,7 +21,7 @@ public abstract class _BankmanagerImplBase {
                 Object result = null;
                 result = CommunicationModule.invoke(name, host, port, "getAccountID", key);
                 if (result instanceof Exception) {
-                   throw new RuntimeException(result.toString());
+                   throw new RuntimeException(result.toString().replace("java.lang.RuntimeException: ", ""));
                }
 				return String.valueOf(result);
 

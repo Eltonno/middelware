@@ -86,7 +86,7 @@ public class compiler {
                                 "                Object result = null;\n" +
                                 "                result = CommunicationModule.invoke(name, host, port, \""+parts[1].replace("(",";").split(";")[0]+"\", "+parts[2].replace(")","").replace(";","")+");\n" +
                                 "                if (result instanceof Exception) {\n" +
-                                "                   throw new RuntimeException(result.toString());\n" +
+                                "                   throw new RuntimeException(result.toString().replace(\"java.lang.RuntimeException: \", \"\"));\n" +
                                 "               }\n" +
                                 "\t\t\t\treturn "+value+";\n" +
                                 "\n" +

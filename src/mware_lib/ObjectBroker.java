@@ -67,13 +67,13 @@ public class ObjectBroker {
         if (args.length > 0) {
             for (int i = 0; i < args.length; i++) {
                 if (args[i].getClass() == Integer.class) {
-                    System.out.println(i + ":" + args[i] + "int");
+                    //System.out.println(i + ":" + args[i] + "int");
                     argtypes[i] = int.class;
                 } else if (args[i].getClass() == Double.class) {
-                    System.out.println(i + ":" + args[i] + "double");
+                    //System.out.println(i + ":" + args[i] + "double");
                     argtypes[i] = double.class;
                 } else {
-                    System.out.println(i + ":" + args[i] + "String");
+                    //System.out.println(i + ":" + args[i] + "String");
                     argtypes[i] = String.class;
                 }
             }

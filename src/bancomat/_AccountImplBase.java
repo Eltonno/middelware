@@ -23,7 +23,7 @@ public abstract class _AccountImplBase {
                 Object result = null;
                 result = CommunicationModule.invoke(name, host, port, "deposit", param0);
                 if (result instanceof Exception) {
-                   throw new RuntimeException(result.toString());
+                   throw new RuntimeException(result.toString().replace("java.lang.RuntimeException: ", ""));
                }
 				return (double) result;
 
@@ -38,7 +38,7 @@ public abstract class _AccountImplBase {
                 Object result = null;
                 result = CommunicationModule.invoke(name, host, port, "withdraw", param0);
                 if (result instanceof Exception) {
-                   throw new RuntimeException(result.toString());
+                   throw new RuntimeException(result.toString().replace("java.lang.RuntimeException: ", ""));
                }
 				return (double) result;
 

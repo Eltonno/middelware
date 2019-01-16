@@ -72,7 +72,7 @@ public class Sender {
                 return e;
             }
            // System.out.println("Sender gestartet mit Host: " + host + " und Port: " + port );
-            System.out.println("Sender sendet: " + nachricht);
+            //System.out.println("Sender sendet: " + nachricht);
 
             try {
             PrintWriter printWriter =
@@ -93,7 +93,7 @@ public class Sender {
                 int anzahlZeichen = bufferedReader.read(buffer, 0, 1000); // blockiert bis Nachricht empfangen
                 String result = new String(buffer, 0, anzahlZeichen);
             socket.close();
-                System.out.println("Sender empfängt " + result);
+                //System.out.println("Sender empfängt " + result);
                 String empfangen = result;
                         if ( empfangen.matches("-?\\d+")){
                             return Integer.parseInt(empfangen);
@@ -107,7 +107,7 @@ public class Sender {
         }
 
          catch (IOException e) {
-            System.out.println("I/O error: " + e);
+            //System.out.println("I/O error: " + e);
             return e;
         } catch (Exception e) {
                 return e;

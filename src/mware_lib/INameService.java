@@ -19,7 +19,6 @@ public class INameService extends NameService {
 
     INameService(String host, int port, boolean debug, ObjectBroker ob) throws UnknownHostException, IOException {
         this.nshost = host;
-		System.out.println("ns"+Integer.toString(port));
         this.nsport = port;
         this.debug = debug;
         this.ob = ob;

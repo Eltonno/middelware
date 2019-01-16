@@ -22,7 +22,7 @@ public class Listener extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Listener läuft auf Port " + port);
+        //System.out.println("Listener läuft auf Port " + port);
         Socket socket = null;
 
        // while (true) {
@@ -127,22 +127,22 @@ public class Listener extends Thread {
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (StringIndexOutOfBoundsException e) {
-                            System.out.println(e);
+                            //System.out.println(e);
                         } catch (RuntimeException e) {
-                            System.out.println(e);
+                            //System.out.println(e);
 
                         }
                     }
                 } else {
                     //TODO: Exception werfen
-                    System.out.println(nachricht + " empfangen. Falsches Format!");
+                    //System.out.println(nachricht + " empfangen. Falsches Format!");
                 }
                 //WOHL FERTIG:RemoteCall abfangen und so splitten, dass man es bei CommunicationModule ausführen kann.
 
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (StringIndexOutOfBoundsException e) {
-                System.out.println(e);
+                //System.out.println(e);
             }
        // }
     }
